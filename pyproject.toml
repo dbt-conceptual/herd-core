@@ -34,3 +34,6 @@ Homepage = "https://github.com/fausteriksen/herd"
 Documentation = "https://github.com/fausteriksen/herd"
 Repository = "https://github.com/fausteriksen/herd"
 Issues = "https://github.com/fausteriksen/herd/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
