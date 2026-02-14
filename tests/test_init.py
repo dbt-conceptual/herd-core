@@ -26,12 +26,15 @@ class TestPublicAPI:
             TicketAdapter,
         )
 
-        # Verify they're actually Protocol classes
-        assert hasattr(AgentAdapter, "__protocol_attrs__")
-        assert hasattr(StoreAdapter, "__protocol_attrs__")
-        assert hasattr(TicketAdapter, "__protocol_attrs__")
-        assert hasattr(RepoAdapter, "__protocol_attrs__")
-        assert hasattr(NotifyAdapter, "__protocol_attrs__")
+        # Verify they're runtime_checkable protocols by testing isinstance() works
+        class Dummy:
+            pass
+        dummy = Dummy()
+        assert not isinstance(dummy, AgentAdapter)
+        assert not isinstance(dummy, StoreAdapter)
+        assert not isinstance(dummy, TicketAdapter)
+        assert not isinstance(dummy, RepoAdapter)
+        assert not isinstance(dummy, NotifyAdapter)
 
     def test_config_importable(self) -> None:
         """HerdConfig should be importable from herd_core."""

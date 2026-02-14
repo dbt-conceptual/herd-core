@@ -32,7 +32,10 @@ class TestStoreAdapterProtocol:
 
     def test_protocol_is_runtime_checkable(self) -> None:
         """StoreAdapter should be @runtime_checkable."""
-        assert hasattr(StoreAdapter, "__protocol_attrs__")
+        # Verify protocol works with isinstance() - that's what @runtime_checkable enables
+        class Dummy:
+            pass
+        assert not isinstance(Dummy(), StoreAdapter)
 
     def test_conforming_implementation_passes(self) -> None:
         """isinstance() check passes for conforming implementation."""
@@ -84,7 +87,10 @@ class TestTicketAdapterProtocol:
 
     def test_protocol_is_runtime_checkable(self) -> None:
         """TicketAdapter should be @runtime_checkable."""
-        assert hasattr(TicketAdapter, "__protocol_attrs__")
+        # Verify protocol works with isinstance() - that's what @runtime_checkable enables
+        class Dummy:
+            pass
+        assert not isinstance(Dummy(), TicketAdapter)
 
     def test_conforming_implementation_passes(self) -> None:
         """isinstance() check passes for conforming implementation."""
@@ -145,7 +151,10 @@ class TestAgentAdapterProtocol:
 
     def test_protocol_is_runtime_checkable(self) -> None:
         """AgentAdapter should be @runtime_checkable."""
-        assert hasattr(AgentAdapter, "__protocol_attrs__")
+        # Verify protocol works with isinstance() - that's what @runtime_checkable enables
+        class Dummy:
+            pass
+        assert not isinstance(Dummy(), AgentAdapter)
 
     def test_conforming_implementation_passes(self) -> None:
         """isinstance() check passes for conforming implementation."""
@@ -211,7 +220,10 @@ class TestRepoAdapterProtocol:
 
     def test_protocol_is_runtime_checkable(self) -> None:
         """RepoAdapter should be @runtime_checkable."""
-        assert hasattr(RepoAdapter, "__protocol_attrs__")
+        # Verify protocol works with isinstance() - that's what @runtime_checkable enables
+        class Dummy:
+            pass
+        assert not isinstance(Dummy(), RepoAdapter)
 
     def test_conforming_implementation_passes(self) -> None:
         """isinstance() check passes for conforming implementation."""
@@ -272,7 +284,10 @@ class TestNotifyAdapterProtocol:
 
     def test_protocol_is_runtime_checkable(self) -> None:
         """NotifyAdapter should be @runtime_checkable."""
-        assert hasattr(NotifyAdapter, "__protocol_attrs__")
+        # Verify protocol works with isinstance() - that's what @runtime_checkable enables
+        class Dummy:
+            pass
+        assert not isinstance(Dummy(), NotifyAdapter)
 
     def test_conforming_implementation_passes(self) -> None:
         """isinstance() check passes for conforming implementation."""
