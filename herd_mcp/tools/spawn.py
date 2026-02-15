@@ -306,7 +306,7 @@ async def execute(
                     f"Ticket {ticket_id} not found in DB, attempting Linear fetch"
                 )
                 if registry and registry.tickets:
-                    linear_issue = await registry.tickets.get(ticket_id)
+                    linear_issue = registry.tickets.get(ticket_id)
                 else:
                     linear_issue = linear_client.get_issue(ticket_id)
 
@@ -430,7 +430,7 @@ async def execute(
             if linear_client.is_linear_identifier(ticket_id):
                 try:
                     if registry and registry.tickets:
-                        await registry.tickets.transition(ticket_id, "in_progress")
+                        registry.tickets.transition(ticket_id, "in_progress")
                         linear_synced = True
                         logger.info(
                             f"Synced ticket {ticket_id} to In Progress in Linear (via adapter)"
