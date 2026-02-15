@@ -155,7 +155,7 @@ async def execute(
             else:
                 message = f"{agent_name} decision:\n{decision_text}"
 
-            await registry.notify.post(
+            registry.notify.post(
                 message=message,
                 channel="#herd-decisions",
                 username=agent_name,

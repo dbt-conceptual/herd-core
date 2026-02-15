@@ -116,7 +116,7 @@ async def _get_linear_tickets(
     try:
         # Search for tickets assigned to this agent or mentioning them
         if registry and registry.tickets:
-            tickets = await registry.tickets.search(f"assignee:{agent_name}")
+            tickets = registry.tickets.search(f"assignee:{agent_name}")
         else:
             tickets = search_issues(f"assignee:{agent_name}")
         return tickets

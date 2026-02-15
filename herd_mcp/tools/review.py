@@ -290,7 +290,7 @@ async def execute(
 
         if registry and registry.notify:
             try:
-                await registry.notify.post(
+                registry.notify.post(
                     message=slack_message,
                     channel="#herd-feed",
                     username="Herd Review Bot",
