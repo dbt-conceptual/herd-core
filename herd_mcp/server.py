@@ -26,6 +26,7 @@ from .tools import (
     create_ticket,
     graph,
     lifecycle,
+    list_tickets,
     log,
     metrics,
     recall,
@@ -660,6 +661,29 @@ async def herd_create_ticket(
     return await create_ticket.execute(
         title, description, priority, labels, agent_name, registry
     )
+
+
+@mcp.tool()
+async def herd_list_tickets(
+    status: str | None = None,
+    assignee: str | None = None,
+    agent_name: str | None = None,
+) -> dict:
+    """List open/active tickets from the project management system.
+
+    Queries Linear via the TicketAdapter to return tickets matching the filters.
+
+    Args:
+        status: Optional status filter (e.g., "backlog", "todo", "in_progress").
+        assignee: Optional assignee filter (agent name or user ID).
+        agent_name: Calling agent identity (falls back to HERD_AGENT_NAME).
+
+    Returns:
+        Dict with list of tickets (id, title, status, priority, assignee) and count.
+    """
+    agent_name = agent_name or get_agent_identity()
+    registry = get_adapter_registry()
+    return await list_tickets.execute(status, assignee, agent_name, registry)
 
 
 # ---------------------------------------------------------------------------
