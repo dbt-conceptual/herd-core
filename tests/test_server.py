@@ -40,6 +40,7 @@ async def test_all_tools_registered():
         "herd_send",
         "herd_checkin",
         "herd_create_ticket",
+        "herd_list_tickets",
     ]
 
     for expected_tool in expected_tools:
@@ -48,6 +49,6 @@ async def test_all_tools_registered():
 
 @pytest.mark.asyncio
 async def test_tool_count():
-    """Test that we have exactly 19 tools registered."""
+    """Test that we have exactly 20 tools registered."""
     tools = await mcp.list_tools()
-    assert len(tools) == 19
+    assert len(tools) == 20
