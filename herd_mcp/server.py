@@ -759,10 +759,10 @@ def _check_store_status() -> dict[str, dict[str, object]]:
 
     # --- LanceDB (directory) ------------------------------------------
     try:
-        from .memory import _get_lance_path, get_memory_store
+        from .memory import get_lance_path, get_memory_store
 
         get_memory_store()
-        lance_path = _get_lance_path()
+        lance_path = get_lance_path()
         entry = {"status": "ok", "path": lance_path}
         try:
             if Path(lance_path).is_dir():
