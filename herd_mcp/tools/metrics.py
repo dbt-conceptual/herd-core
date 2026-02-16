@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from herd_core.queries import OperationalQueries
 from herd_core.types import (
@@ -227,8 +227,8 @@ def _query_agent_performance(
     # Get review events
     review_events: list[ReviewEvent] = store.events(ReviewEvent, **filters)  # type: ignore[assignment]
     agent_reviews: dict[str, int] = {}
-    for event in review_events:
-        agent_record = store.get(AgentRecord, event.instance_id)
+    for review_event in review_events:
+        agent_record = store.get(AgentRecord, review_event.instance_id)
         if agent_record:
             agent_reviews[agent_record.agent] = (
                 agent_reviews.get(agent_record.agent, 0) + 1
@@ -246,10 +246,10 @@ def _query_agent_performance(
     ]
 
     # Sort by PRs created
-    data.sort(key=lambda x: x["prs_created"], reverse=True)
+    data.sort(key=lambda x: cast(int, x["prs_created"]), reverse=True)
 
-    total_prs = sum(d["prs_created"] for d in data)
-    total_reviews = sum(d["reviews_submitted"] for d in data)
+    total_prs = sum(cast(int, d["prs_created"]) for d in data)
+    total_reviews = sum(cast(int, d["reviews_submitted"]) for d in data)
 
     summary = (
         f"{len(data)} agents tracked: {total_prs} PRs created, "
@@ -443,8 +443,8 @@ def _query_sprint_velocity(store: StoreAdapter) -> dict:
         for sprint_name, count in sprint_data.items()
     ]
 
-    total_tickets = sum(d["tickets_completed"] for d in data)
-    sprint_count = len([d for d in data if d["sprint"] != "unassigned"])
+    total_tickets = sum(cast(int, d["tickets_completed"]) for d in data)
+    sprint_count = len([d for d in data if cast(str, d["sprint"]) != "unassigned"])
     avg_velocity = total_tickets / sprint_count if sprint_count > 0 else 0.0
 
     summary = f"{total_tickets} tickets across {sprint_count} sprints (avg: {avg_velocity:.1f} tickets/sprint)"
@@ -478,7 +478,7 @@ def _query_pipeline_efficiency(
         )
     ]
 
-    total_transitions = sum(d["transitions"] for d in data)
+    total_transitions = sum(cast(int, d["transitions"]) for d in data)
     status_count = len(data)
 
     summary = f"{total_transitions} status transitions across {status_count} statuses"
