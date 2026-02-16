@@ -772,20 +772,8 @@ def _check_store_status() -> dict[str, dict[str, object]]:
     try:
         registry = get_adapter_registry()
         if registry.store is not None:
-            db_path: str = getattr(registry.store, "path", "")
-            entry: dict[str, object] = {"status": "ok", "path": db_path}
-            if db_path and db_path != ":memory:":
-                try:
-                    size, mtime = _file_size_and_mtime(db_path)
-                    entry["size_bytes"] = size
-                    entry["last_modified"] = mtime
-                except FileNotFoundError:
-                    entry["size_bytes"] = 0
-                    entry["last_modified"] = ""
-            else:
-                entry["size_bytes"] = 0
-                entry["last_modified"] = ""
-            stores["duckdb"] = entry
+            info = registry.store.storage_info()
+            stores["duckdb"] = {**info, "status": "ok"}
         else:
             stores["duckdb"] = {"status": "unavailable"}
     except Exception:
@@ -797,7 +785,7 @@ def _check_store_status() -> dict[str, dict[str, object]]:
 
         get_memory_store()
         lance_path = get_lance_path()
-        entry = {"status": "ok", "path": lance_path}
+        entry: dict[str, object] = {"status": "ok", "path": lance_path}
         try:
             if Path(lance_path).is_dir():
                 size, mtime = _dir_size_and_mtime(lance_path)
@@ -818,18 +806,18 @@ def _check_store_status() -> dict[str, dict[str, object]]:
 
         if is_available():
             kuzu_path = get_graph_path()
-            entry = {"status": "ok", "path": kuzu_path}
+            kuzu_entry: dict[str, object] = {"status": "ok", "path": kuzu_path}
             try:
                 if Path(kuzu_path).is_dir():
                     size, mtime = _dir_size_and_mtime(kuzu_path)
                 else:
                     size, mtime = _file_size_and_mtime(kuzu_path)
-                entry["size_bytes"] = size
-                entry["last_modified"] = mtime
+                kuzu_entry["size_bytes"] = size
+                kuzu_entry["last_modified"] = mtime
             except FileNotFoundError:
-                entry["size_bytes"] = 0
-                entry["last_modified"] = ""
-            stores["kuzudb"] = entry
+                kuzu_entry["size_bytes"] = 0
+                kuzu_entry["last_modified"] = ""
+            stores["kuzudb"] = kuzu_entry
         else:
             stores["kuzudb"] = {"status": "unavailable"}
     except Exception:
