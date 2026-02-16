@@ -26,6 +26,24 @@ from herd_mcp.tools.checkin import (
     execute,
 )
 
+
+@pytest.fixture(autouse=True)
+def _use_tmp_bus_storage(tmp_path):
+    """Ensure MessageBus uses a temp dir in all checkin tests."""
+    import herd_mcp.bus as bus_mod
+
+    original = bus_mod._default_storage_path
+
+    def _tmp_storage() -> bus_mod.Path:
+        p = tmp_path / "messages"
+        p.mkdir(parents=True, exist_ok=True)
+        return p
+
+    bus_mod._default_storage_path = _tmp_storage
+    yield
+    bus_mod._default_storage_path = original
+
+
 # ---------------------------------------------------------------------------
 # CheckinRegistry tests
 # ---------------------------------------------------------------------------
