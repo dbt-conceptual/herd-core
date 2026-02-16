@@ -120,3 +120,17 @@ class StoreAdapter(Protocol):
             List of matching events, ordered by created_at ascending.
         """
         ...
+
+    def storage_info(self) -> dict[str, str | int]:
+        """Return storage metadata for this adapter.
+
+        Provides information about the storage backend's location, size,
+        and last modification time. Used for health checks and monitoring.
+
+        Returns:
+            Dict with keys:
+                - path: Storage location (file path, directory, or empty for in-memory/cloud)
+                - size_bytes: Total storage size in bytes (0 for in-memory/cloud)
+                - last_modified: ISO 8601 UTC timestamp of last modification (empty for in-memory/cloud)
+        """
+        ...

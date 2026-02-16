@@ -66,6 +66,9 @@ class TestStoreAdapterProtocol:
             def events(self, event_type: type[Event], **filters: Any) -> list[Event]:
                 return []
 
+            def storage_info(self) -> dict[str, str | int]:
+                return {"path": "", "size_bytes": 0, "last_modified": ""}
+
         store = ConformingStore()
         assert isinstance(store, StoreAdapter)
 
