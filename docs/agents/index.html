@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
+		<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			try {
+				/** @type {'light' | 'dark' | 'system'} */
+				const savedTheme = localStorage.getItem('evidence-theme') ?? 'system';
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const theme = savedTheme === 'system' ? (prefersDark ? 'dark' : 'light') : savedTheme;
+				document.documentElement.setAttribute('data-theme', theme);
+			} catch (e) {}
+		</script>
+		
+		<link href="/_app/immutable/assets/0.DtVo0Clk.css" rel="stylesheet">
+		<link href="/_app/immutable/assets/VennDiagram.BCpuTJYF.css" rel="stylesheet">
+		<link rel="modulepreload" href="/_app/immutable/entry/start.ubUukobn.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/entry.BmF8qIvy.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/scheduler.FpD6N7RQ.js">
+		<link rel="modulepreload" href="/_app/immutable/entry/app.BxZfvJQY.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/preload-helper.D7HrI6pR.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.CJT9_JY8.js">
+		<link rel="modulepreload" href="/_app/immutable/nodes/0.BwbJi3hQ.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.rV6zwFgL.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/VennDiagram.svelte_svelte_type_style_lang.BSmdDldM.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/setTrackProxy.DjIbdjlZ.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/stores.01ULU8yI.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.CAE2CP3y.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/scroll.vAVrQbBJ.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/button.DHUh0dMR.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/AccordionItem.BXSTzP7K.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/checkRequiredProps.o_C_V3S5.js">
+		<link rel="modulepreload" href="/_app/immutable/nodes/5.-_yh09nH.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/BarChart.DscctSSP.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/ScatterPlot.C3Wd9tCv.js"><title>Evidence</title><!-- HEAD_svelte-2igo1p_START --> <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@evidence_dev"><!-- HEAD_svelte-2igo1p_END -->
+	</head>
+	<body>
+		<script>
+			
+		</script>
+		<div>
+			<!-- SvelteKit Hydrated Content -->
+			   <div class="z-[1] fixed right-0 bottom-0 mx-10 my-6 w-80"></div> <div data-sveltekit-preload-data="hover" class="antialiased"> <header class="fixed w-full top-0 z-40 flex h-12 shrink-0 justify-start items-center gap-x-4 border-b border-base-300/50 bg-base-100/90 backdrop-blur print:hidden"><div class=" max-w-7xl mx-auto px-5 sm:px-6 md:px-12 flex flex-1 items-center justify-between" style="max-width:undefinedpx;"><div class="flex gap-x-4 items-center"><button type="button" class="text-base-content hover:bg-base-200 rounded-lg p-1 -ml-1 transition-all duration-500 md:hidden"><span class="sr-only" data-svelte-h="svelte-73kebv">Open sidebar</span> <svg class="w-5 h-5" width="100%" height="100%" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 6l16 0"></path><path d="M4 12l16 0"></path><path d="M4 18l16 0"></path></svg></button> <a href="/" class="text-sm font-bold text-base-content hidden md:block"><img src="/_app/immutable/assets/wordmark-black.rfl-FBgf.png" alt="Home" class="h-5 aspect-auto block dark:hidden" href="/"> <img src="/_app/immutable/assets/wordmark-white.C8ZS96Ri.png" alt="Home" class="h-5 aspect-auto hidden dark:block" href="/"></a></div> <div class="flex gap-2 text-sm items-center"> <div class="flex gap-2 items-center">   </div> <div class="relative"> <button type="button" tabindex="0" aria-controls="miy1hKF88A" aria-expanded="false" data-state="closed" id="FVp2yNAWeR" data-melt-dropdown-menu-trigger="" data-menu-trigger="" class="inline-flex items-center justify-center font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-base-content-muted disabled:pointer-events-none disabled:opacity-50 hover:text-base-content h-8 rounded-md text-xs px-1 hover:bg-base-200 shadow-base-200" aria-label="Menu" data-button-root=""><svg class="h-6 w-6" width="100%" height="100%" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path></svg></button> </div></div></div></header> <div class=" max-w-7xl print:w-[650px] print:md:w-[841px] mx-auto print:md:px-0 print:px-0 px-6 sm:px-8 md:px-12 flex justify-start" style="max-width:undefinedpx;"><div class="print:hidden">  <aside class="w-48 flex-none hidden md:flex"><div class="hidden: md:block fixed w-48 top-20 bottom-8 overflow-y-auto flex-1 text-sm pretty-scrollbar"><div class="flex flex-col pb-6"><a class="sticky top-0 bg-base-100 shadow shadow-base-100 font-semibold pb-1 mb-1 group inline-block capitalize hover:underline text-base-heading" href="/">Home</a>  <a class="group inline-block py-1 capitalize transition-all duration-100 text-primary" href="/agents">agents  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/architect">architect  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/costs">costs  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/efficiency">efficiency  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/pipeline">pipeline  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/prompts">prompts  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/qa">qa  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/sprint">sprint  </a></div> </div> <div class="fixed bottom-0 text-xs py-2" data-svelte-h="svelte-fworv4"><a href="https://www.evidence.dev" class="bg-gradient-to-r inline-block antialiased font-medium">Built with Evidence</a></div></aside></div> <main class="md:pl-8 md:pr-8  mt-16 sm:mt-20 flex-grow overflow-x-hidden print:px-0 print:mt-8"><div class="print:hidden"><div class="flex items-start mt-0 whitespace-nowrap overflow-auto"><div class="inline-flex items-center text-sm capitalize gap-1 text-base-content-muted mb-2 sm:mb-4"><a href="/" class="hover:underline">Home </a><svg class="icon icon-tabler icon-tabler-chevron-right" width="12px" height="12px" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg> <a href="/agents" class="hover:underline">agents</a></div></div></div> <article id="evidence-main-article" class="select-text markdown pb-10">      <h1 class="markdown" id="agent-performance" data-svelte-h="svelte-1npes01"><a href="#agent-performance">Agent Performance</a></h1> <blockquote class="markdown" data-svelte-h="svelte-1i9srer"><p class="markdown">&quot;Every stroke reveals the artist&#39;s hand.&quot; — Track agent output, quality, and efficiency.</p></blockquote> <h2 class="markdown" id="agent-summary" data-svelte-h="svelte-dc0jbp"><a href="#agent-summary">Agent Summary</a></h2> <p class="markdown" data-svelte-h="svelte-chkaxb"><strong class="markdown">Question</strong>: Which agents are delivering the most value relative to their cost?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 12: FROM herd.dim_agent da
+              ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="qa-pass-rates-by-agent" data-svelte-h="svelte-ldoc88"><a href="#qa-pass-rates-by-agent">QA Pass Rates by Agent</a></h2> <p class="markdown" data-svelte-h="svelte-3ge93w"><strong class="markdown">Question</strong>: Which agents produce clean code that passes QA on the first attempt?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Bar Chart</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 10: FROM herd.dim_agent da
+              ^</pre></div></div></div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 10: FROM herd.dim_agent da
+              ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="cost-efficiency-by-agent" data-svelte-h="svelte-5wyd0i"><a href="#cost-efficiency-by-agent">Cost Efficiency by Agent</a></h2> <p class="markdown" data-svelte-h="svelte-10p0lye"><strong class="markdown">Question</strong>: What is the cost per line of code for each agent?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Scatter Plot</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 13: FROM herd.dim_agent da
+              ^</pre></div></div></div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 13: FROM herd.dim_agent da
+              ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="model-comparison-by-agent" data-svelte-h="svelte-4wwlhc"><a href="#model-comparison-by-agent">Model Comparison by Agent</a></h2> <p class="markdown" data-svelte-h="svelte-lpwdmk"><strong class="markdown">Question</strong>: How do model choices affect agent costs?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Bar Chart</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 10: FROM herd.dim_agent da
+              ^</pre></div></div></div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 10: FROM herd.dim_agent da
+              ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="agent-craft-assignments" data-svelte-h="svelte-lzqu6j"><a href="#agent-craft-assignments">Agent Craft Assignments</a></h2> <p class="markdown" data-svelte-h="svelte-8gkurc"><strong class="markdown">Question</strong>: What craft (role specialization) has each agent performed?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 8: FROM herd.dim_agent da
+             ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="agent-work-distribution" data-svelte-h="svelte-pwp5r4"><a href="#agent-work-distribution">Agent Work Distribution</a></h2> <p class="markdown" data-svelte-h="svelte-3ds4om"><strong class="markdown">Question</strong>: How active is each agent across different activity types?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Bar Chart</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 9: FROM herd.dim_agent da
+             ^</pre></div></div></div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_agent does not exist!
+Did you mean "dim_date"?
+
+LINE 9: FROM herd.dim_agent da
+             ^</pre></div></div></div></article></main> <div class="print:hidden"><aside class="hidden lg:block w-48"><div class="fixed w-48 top-20 bottom-20 pl-4 px-3 overflow-auto pretty-scrollbar"></div></aside></div></div></div>  
+			<script type="application/json" data-sveltekit-fetched data-url="/api/customFormattingSettings.json/GET.json">{"status":200,"statusText":"","headers":{},"body":"{\"customFormattingSettings\":{\"version\":\"1.0\",\"customFormats\":[]}}"}</script>
+			<script type="application/json" data-sveltekit-fetched data-url="/api/pagesManifest.json">{"status":200,"statusText":"","headers":{},"body":"{\"label\":\"Home\",\"href\":\"/\",\"children\":{\"agents\":{\"label\":\"agents\",\"href\":\"/agents\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"architect\":{\"label\":\"architect\",\"href\":\"/architect\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"costs\":{\"label\":\"costs\",\"href\":\"/costs\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"efficiency\":{\"label\":\"efficiency\",\"href\":\"/efficiency\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"pipeline\":{\"label\":\"pipeline\",\"href\":\"/pipeline\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"prompts\":{\"label\":\"prompts\",\"href\":\"/prompts\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"qa\":{\"label\":\"qa\",\"href\":\"/qa\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"sprint\":{\"label\":\"sprint\",\"href\":\"/sprint\",\"children\":{},\"isTemplated\":false,\"isPage\":true}},\"isTemplated\":false,\"isPage\":true}"}</script>
+			<script type="application/json" data-sveltekit-fetched data-url="/api//agents/evidencemeta.json">{"status":200,"statusText":"","headers":{},"body":"{\"queries\":[{\"id\":\"agent_summary\",\"compiledQueryString\":\"SELECT\\n    da.agent_code,\\n    da.agent_role,\\n    da.agent_status,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as total_sessions,\\n    COUNT(DISTINCT CASE WHEN faiw.agent_instance_outcome = 'success' THEN faiw.agent_instance_tk END) as successful_sessions,\\n    COUNT(DISTINCT dt.ticket_tk) as tickets_worked,\\n    SUM(faic.total_token_input_count + faic.total_token_output_count) as total_tokens,\\n    SUM(faic.total_token_cost_usd) as total_cost,\\n    ROUND(AVG(faiw.instance_duration_minutes), 1) as avg_session_minutes\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_agent_instance_work faiw\\n    ON da.agent_sk = faiw.agent_sk\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nLEFT JOIN herd.dim_ticket dt\\n    ON faiw.ticket_sk = dt.ticket_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\nGROUP BY da.agent_code, da.agent_role, da.agent_status\\nORDER BY total_cost DESC NULLS LAST\",\"inputQueryString\":\"SELECT\\n    da.agent_code,\\n    da.agent_role,\\n    da.agent_status,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as total_sessions,\\n    COUNT(DISTINCT CASE WHEN faiw.agent_instance_outcome = 'success' THEN faiw.agent_instance_tk END) as successful_sessions,\\n    COUNT(DISTINCT dt.ticket_tk) as tickets_worked,\\n    SUM(faic.total_token_input_count + faic.total_token_output_count) as total_tokens,\\n    SUM(faic.total_token_cost_usd) as total_cost,\\n    ROUND(AVG(faiw.instance_duration_minutes), 1) as avg_session_minutes\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_agent_instance_work faiw\\n    ON da.agent_sk = faiw.agent_sk\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nLEFT JOIN herd.dim_ticket dt\\n    ON faiw.ticket_sk = dt.ticket_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\nGROUP BY da.agent_code, da.agent_role, da.agent_status\\nORDER BY total_cost DESC NULLS LAST\",\"compiled\":false,\"inline\":true},{\"id\":\"qa_pass_rates\",\"compiledQueryString\":\"SELECT\\n    da.agent_code,\\n    da.agent_role,\\n    COUNT(DISTINCT frq.review_submission_tk) as total_reviews,\\n    SUM(CASE WHEN frq.review_round = 1 AND frq.review_verdict = 'approved' THEN 1 ELSE 0 END) as first_pass_approvals,\\n    SUM(CASE WHEN frq.review_verdict = 'approved' THEN 1 ELSE 0 END) as total_approvals,\\n    ROUND(100.0 * SUM(CASE WHEN frq.review_round = 1 AND frq.review_verdict = 'approved' THEN 1 ELSE 0 END) / NULLIF(COUNT(DISTINCT CASE WHEN frq.review_round = 1 THEN frq.review_submission_tk END), 0), 1) as first_pass_rate,\\n    ROUND(AVG(frq.finding_count), 1) as avg_findings_per_review\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_review_quality frq\\n    ON da.agent_sk = frq.agent_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\n  AND frq.review_submission_tk IS NOT NULL\\nGROUP BY da.agent_code, da.agent_role\\nORDER BY first_pass_rate DESC NULLS LAST\",\"inputQueryString\":\"SELECT\\n    da.agent_code,\\n    da.agent_role,\\n    COUNT(DISTINCT frq.review_submission_tk) as total_reviews,\\n    SUM(CASE WHEN frq.review_round = 1 AND frq.review_verdict = 'approved' THEN 1 ELSE 0 END) as first_pass_approvals,\\n    SUM(CASE WHEN frq.review_verdict = 'approved' THEN 1 ELSE 0 END) as total_approvals,\\n    ROUND(100.0 * SUM(CASE WHEN frq.review_round = 1 AND frq.review_verdict = 'approved' THEN 1 ELSE 0 END) / NULLIF(COUNT(DISTINCT CASE WHEN frq.review_round = 1 THEN frq.review_submission_tk END), 0), 1) as first_pass_rate,\\n    ROUND(AVG(frq.finding_count), 1) as avg_findings_per_review\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_review_quality frq\\n    ON da.agent_sk = frq.agent_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\n  AND frq.review_submission_tk IS NOT NULL\\nGROUP BY da.agent_code, da.agent_role\\nORDER BY first_pass_rate DESC NULLS LAST\",\"compiled\":false,\"inline\":true},{\"id\":\"cost_efficiency\",\"compiledQueryString\":\"SELECT\\n    da.agent_code,\\n    dm.model_code,\\n    COUNT(DISTINCT fpd.pull_request_sk) as prs_delivered,\\n    SUM(fpd.pr_lines_added + fpd.pr_lines_deleted) as total_lines,\\n    SUM(faic.total_token_cost_usd) as total_cost,\\n    CASE\\n        WHEN SUM(fpd.pr_lines_added + fpd.pr_lines_deleted) > 0\\n        THEN SUM(faic.total_token_cost_usd) / SUM(fpd.pr_lines_added + fpd.pr_lines_deleted)\\n        ELSE 0\\n    END as cost_per_line\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON da.agent_sk = faic.agent_sk\\nLEFT JOIN herd.dim_model dm\\n    ON faic.model_sk = dm.model_sk\\nLEFT JOIN herd.fact_pr_delivery fpd\\n    ON faic.agent_sk = fpd.agent_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\n  AND fpd.pr_merged_at IS NOT NULL\\nGROUP BY da.agent_code, dm.model_code\\nHAVING SUM(fpd.pr_lines_added + fpd.pr_lines_deleted) > 0\\nORDER BY cost_per_line ASC\",\"inputQueryString\":\"SELECT\\n    da.agent_code,\\n    dm.model_code,\\n    COUNT(DISTINCT fpd.pull_request_sk) as prs_delivered,\\n    SUM(fpd.pr_lines_added + fpd.pr_lines_deleted) as total_lines,\\n    SUM(faic.total_token_cost_usd) as total_cost,\\n    CASE\\n        WHEN SUM(fpd.pr_lines_added + fpd.pr_lines_deleted) > 0\\n        THEN SUM(faic.total_token_cost_usd) / SUM(fpd.pr_lines_added + fpd.pr_lines_deleted)\\n        ELSE 0\\n    END as cost_per_line\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON da.agent_sk = faic.agent_sk\\nLEFT JOIN herd.dim_model dm\\n    ON faic.model_sk = dm.model_sk\\nLEFT JOIN herd.fact_pr_delivery fpd\\n    ON faic.agent_sk = fpd.agent_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\n  AND fpd.pr_merged_at IS NOT NULL\\nGROUP BY da.agent_code, dm.model_code\\nHAVING SUM(fpd.pr_lines_added + fpd.pr_lines_deleted) > 0\\nORDER BY cost_per_line ASC\",\"compiled\":false,\"inline\":true},{\"id\":\"model_usage\",\"compiledQueryString\":\"SELECT\\n    da.agent_code,\\n    dm.model_code,\\n    dm.model_provider,\\n    COUNT(DISTINCT faic.agent_instance_tk) as sessions,\\n    SUM(faic.total_token_input_count + faic.total_token_output_count) as total_tokens,\\n    SUM(faic.total_token_cost_usd) as total_cost,\\n    ROUND(AVG(faic.total_token_cost_usd), 4) as avg_cost_per_session\\nFROM herd.dim_agent da\\nJOIN herd.fact_agent_instance_cost faic\\n    ON da.agent_sk = faic.agent_sk\\nJOIN herd.dim_model dm\\n    ON faic.model_sk = dm.model_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\nGROUP BY da.agent_code, dm.model_code, dm.model_provider\\nORDER BY da.agent_code, total_cost DESC\",\"inputQueryString\":\"SELECT\\n    da.agent_code,\\n    dm.model_code,\\n    dm.model_provider,\\n    COUNT(DISTINCT faic.agent_instance_tk) as sessions,\\n    SUM(faic.total_token_input_count + faic.total_token_output_count) as total_tokens,\\n    SUM(faic.total_token_cost_usd) as total_cost,\\n    ROUND(AVG(faic.total_token_cost_usd), 4) as avg_cost_per_session\\nFROM herd.dim_agent da\\nJOIN herd.fact_agent_instance_cost faic\\n    ON da.agent_sk = faic.agent_sk\\nJOIN herd.dim_model dm\\n    ON faic.model_sk = dm.model_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\nGROUP BY da.agent_code, dm.model_code, dm.model_provider\\nORDER BY da.agent_code, total_cost DESC\",\"compiled\":false,\"inline\":true},{\"id\":\"agent_crafts\",\"compiledQueryString\":\"SELECT\\n    da.agent_code,\\n    da.agent_role,\\n    dc.craft_code,\\n    dc.craft_description,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as instance_count\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_agent_instance_work faiw\\n    ON da.agent_sk = faiw.agent_sk\\nLEFT JOIN herd.dim_craft dc\\n    ON faiw.craft_sk = dc.craft_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\n  AND dc.craft_code IS NOT NULL\\nGROUP BY da.agent_code, da.agent_role, dc.craft_code, dc.craft_description\\nORDER BY da.agent_code, instance_count DESC\",\"inputQueryString\":\"SELECT\\n    da.agent_code,\\n    da.agent_role,\\n    dc.craft_code,\\n    dc.craft_description,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as instance_count\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_agent_instance_work faiw\\n    ON da.agent_sk = faiw.agent_sk\\nLEFT JOIN herd.dim_craft dc\\n    ON faiw.craft_sk = dc.craft_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\n  AND dc.craft_code IS NOT NULL\\nGROUP BY da.agent_code, da.agent_role, dc.craft_code, dc.craft_description\\nORDER BY da.agent_code, instance_count DESC\",\"compiled\":false,\"inline\":true},{\"id\":\"work_distribution\",\"compiledQueryString\":\"SELECT\\n    da.agent_code,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as session_count,\\n    SUM(faiw.instance_duration_minutes) as total_minutes,\\n    SUM(faiw.lifecycle_event_count) as lifecycle_events,\\n    SUM(faiw.ticket_activity_count) as ticket_activities,\\n    SUM(faiw.pr_activity_count) as pr_activities\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_agent_instance_work faiw\\n    ON da.agent_sk = faiw.agent_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\nGROUP BY da.agent_code\\nORDER BY total_minutes DESC NULLS LAST\",\"inputQueryString\":\"SELECT\\n    da.agent_code,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as session_count,\\n    SUM(faiw.instance_duration_minutes) as total_minutes,\\n    SUM(faiw.lifecycle_event_count) as lifecycle_events,\\n    SUM(faiw.ticket_activity_count) as ticket_activities,\\n    SUM(faiw.pr_activity_count) as pr_activities\\nFROM herd.dim_agent da\\nLEFT JOIN herd.fact_agent_instance_work faiw\\n    ON da.agent_sk = faiw.agent_sk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\nGROUP BY da.agent_code\\nORDER BY total_minutes DESC NULLS LAST\",\"compiled\":false,\"inline\":true}]}"}</script>
+			<script>
+				{
+					__sveltekit_19ztpcm = {
+						base: ""
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("/_app/immutable/entry/start.ubUukobn.js"),
+						import("/_app/immutable/entry/app.BxZfvJQY.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		
+
+			<!-- SplashScreen -->
+			<div
+				aria-disabled
+				id="__evidence_project_splash"
+				data-test-id="__evidence_project_splash"
+				style="visibility: hidden"
+			>
+				<svg width="100" height="100" viewBox="-8 -8 588 588" xmlns="http://www.w3.org/2000/svg">
+					<path
+						d="M7.19462e-05 74.3583C109.309 74.3583 195.795 86.2578 286.834 37.825C377.872 -10.6077 466.416 1.29174 573.667 1.29175L573.667 126.549C466.416 126.549 377.373 114.91 286.834 163.082C196.294 211.254 109.309 199.615 6.11417e-05 199.615L7.19462e-05 74.3583Z"
+						class="draw-path"
+					/>
+					<path
+						d="M573.669 499.31C464.36 499.31 377.874 487.411 286.835 535.843C195.797 584.276 107.252 572.377 0.0014801 572.377V447.12C107.252 447.12 196.295 458.758 286.835 410.586C377.375 362.415 464.36 374.053 573.669 374.053V499.31Z"
+						class="draw-path"
+					/>
+					<path
+						d="M452.896 186.499C395.028 187.686 341.581 194.947 286.835 224.074C211.396 264.212 136.995 262.826 52.2355 261.247C35.2696 260.931 17.8887 260.608 0.0014801 260.608V385.865C18.1032 385.865 35.6721 386.204 52.81 386.534C137.212 388.162 211.162 389.589 286.835 349.331C341.838 320.07 395.18 312.831 452.896 311.685V186.499Z"
+						class="draw-path"
+					/>
+				</svg>
+			</div>
+		</div>
+	</body>
+</html>
+
+<style>
+	#__evidence_project_splash {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: #ffffff;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 9999;
+	}
+
+	[data-theme='dark'] #__evidence_project_splash {
+		background-color: #000000;
+	}
+
+	.draw-path {
+		fill: #000000;
+		animation: blinking-logo 2s;
+		animation-fill-mode: both;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+	}
+
+	[data-theme='dark'] .draw-path {
+		fill: #ffffff;
+	}
+
+	@keyframes blinking-logo {
+		0% {
+			fill-opacity: 1;
+		}
+		50% {
+			fill-opacity: 0.2;
+		}
+		100% {
+			fill-opacity: 1;
+		}
+	}
+</style>
