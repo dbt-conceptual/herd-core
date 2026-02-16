@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="/favicon.ico" sizes="32x32" />
+		<link rel="icon" href="/icon.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/manifest.webmanifest" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script>
+			try {
+				/** @type {'light' | 'dark' | 'system'} */
+				const savedTheme = localStorage.getItem('evidence-theme') ?? 'system';
+				const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+				const theme = savedTheme === 'system' ? (prefersDark ? 'dark' : 'light') : savedTheme;
+				document.documentElement.setAttribute('data-theme', theme);
+			} catch (e) {}
+		</script>
+		
+		<link href="/_app/immutable/assets/0.DtVo0Clk.css" rel="stylesheet">
+		<link href="/_app/immutable/assets/VennDiagram.BCpuTJYF.css" rel="stylesheet">
+		<link rel="modulepreload" href="/_app/immutable/entry/start.ubUukobn.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/entry.BmF8qIvy.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/scheduler.FpD6N7RQ.js">
+		<link rel="modulepreload" href="/_app/immutable/entry/app.BxZfvJQY.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/preload-helper.D7HrI6pR.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.CJT9_JY8.js">
+		<link rel="modulepreload" href="/_app/immutable/nodes/0.BwbJi3hQ.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.rV6zwFgL.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/VennDiagram.svelte_svelte_type_style_lang.BSmdDldM.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/setTrackProxy.DjIbdjlZ.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/stores.01ULU8yI.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/index.CAE2CP3y.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/scroll.vAVrQbBJ.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/button.DHUh0dMR.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/AccordionItem.BXSTzP7K.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/checkRequiredProps.o_C_V3S5.js">
+		<link rel="modulepreload" href="/_app/immutable/nodes/12.B2XoneKI.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/BarChart.DscctSSP.js">
+		<link rel="modulepreload" href="/_app/immutable/chunks/LineChart.CrQpACj2.js"><title>Evidence</title><!-- HEAD_svelte-2igo1p_START --> <meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@evidence_dev"><!-- HEAD_svelte-2igo1p_END -->
+	</head>
+	<body>
+		<script>
+			
+		</script>
+		<div>
+			<!-- SvelteKit Hydrated Content -->
+			   <div class="z-[1] fixed right-0 bottom-0 mx-10 my-6 w-80"></div> <div data-sveltekit-preload-data="hover" class="antialiased"> <header class="fixed w-full top-0 z-40 flex h-12 shrink-0 justify-start items-center gap-x-4 border-b border-base-300/50 bg-base-100/90 backdrop-blur print:hidden"><div class=" max-w-7xl mx-auto px-5 sm:px-6 md:px-12 flex flex-1 items-center justify-between" style="max-width:undefinedpx;"><div class="flex gap-x-4 items-center"><button type="button" class="text-base-content hover:bg-base-200 rounded-lg p-1 -ml-1 transition-all duration-500 md:hidden"><span class="sr-only" data-svelte-h="svelte-73kebv">Open sidebar</span> <svg class="w-5 h-5" width="100%" height="100%" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M4 6l16 0"></path><path d="M4 12l16 0"></path><path d="M4 18l16 0"></path></svg></button> <a href="/" class="text-sm font-bold text-base-content hidden md:block"><img src="/_app/immutable/assets/wordmark-black.rfl-FBgf.png" alt="Home" class="h-5 aspect-auto block dark:hidden" href="/"> <img src="/_app/immutable/assets/wordmark-white.C8ZS96Ri.png" alt="Home" class="h-5 aspect-auto hidden dark:block" href="/"></a></div> <div class="flex gap-2 text-sm items-center"> <div class="flex gap-2 items-center">   </div> <div class="relative"> <button type="button" tabindex="0" aria-controls="eNDDDSpkxC" aria-expanded="false" data-state="closed" id="_fxS7hm3ah" data-melt-dropdown-menu-trigger="" data-menu-trigger="" class="inline-flex items-center justify-center font-medium whitespace-nowrap transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-base-content-muted disabled:pointer-events-none disabled:opacity-50 hover:text-base-content h-8 rounded-md text-xs px-1 hover:bg-base-200 shadow-base-200" aria-label="Menu" data-button-root=""><svg class="h-6 w-6" width="100%" height="100%" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path><path d="M19 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path></svg></button> </div></div></div></header> <div class=" max-w-7xl print:w-[650px] print:md:w-[841px] mx-auto print:md:px-0 print:px-0 px-6 sm:px-8 md:px-12 flex justify-start" style="max-width:undefinedpx;"><div class="print:hidden">  <aside class="w-48 flex-none hidden md:flex"><div class="hidden: md:block fixed w-48 top-20 bottom-8 overflow-y-auto flex-1 text-sm pretty-scrollbar"><div class="flex flex-col pb-6"><a class="sticky top-0 bg-base-100 shadow shadow-base-100 font-semibold pb-1 mb-1 group inline-block capitalize hover:underline text-base-heading" href="/">Home</a>  <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/agents">agents  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/architect">architect  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/costs">costs  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/efficiency">efficiency  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/pipeline">pipeline  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-primary" href="/prompts">prompts  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/qa">qa  </a> <a class="group inline-block py-1 capitalize transition-all duration-100 text-base-content-muted hover:text-base-content" href="/sprint">sprint  </a></div> </div> <div class="fixed bottom-0 text-xs py-2" data-svelte-h="svelte-fworv4"><a href="https://www.evidence.dev" class="bg-gradient-to-r inline-block antialiased font-medium">Built with Evidence</a></div></aside></div> <main class="md:pl-8 md:pr-8  mt-16 sm:mt-20 flex-grow overflow-x-hidden print:px-0 print:mt-8"><div class="print:hidden"><div class="flex items-start mt-0 whitespace-nowrap overflow-auto"><div class="inline-flex items-center text-sm capitalize gap-1 text-base-content-muted mb-2 sm:mb-4"><a href="/" class="hover:underline">Home </a><svg class="icon icon-tabler icon-tabler-chevron-right" width="12px" height="12px" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M9 6l6 6l-6 6"></path></svg> <a href="/prompts" class="hover:underline">prompts</a></div></div></div> <article id="evidence-main-article" class="select-text markdown pb-10">      <h1 class="markdown" id="prompt-effectiveness" data-svelte-h="svelte-8qxy0s"><a href="#prompt-effectiveness">Prompt Effectiveness</a></h1> <blockquote class="markdown" data-svelte-h="svelte-146ai13"><p class="markdown">&quot;The question shapes the answer.&quot; — Track prompt patterns, first-pass success, and craft correlation.</p></blockquote> <h2 class="markdown" id="prompt-overview" data-svelte-h="svelte-1l7pmat"><a href="#prompt-overview">Prompt Overview</a></h2> <p class="markdown" data-svelte-h="svelte-12jthq7"><strong class="markdown">Question</strong>: How successful are agent sessions at achieving their goals?</p> <div class="over-container svelte-1p12lev"> </div> <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"> <div slot="error" class="inline-block font-sans pt-2 pb-3 pr-3 pl-0 mr-3 items-center align-top" style="
+				min-width: undefined;
+				max-width: undefined;
+		"><div width="100%" class="inline-block group w-[100px] relative cursor-help cursor-helpfont-sans box-content grid-cols-1 justify-center bg-negative/10 font-ui font-normal rounded border border-negative/50 h-[38px] mt-0.5 py-3 px-3 print:break-inside-avoid"><div class="font-bold text-center text-sm text-negative" data-svelte-h="svelte-irqt29">Big Value</div> <div class="m-auto w-[100px]"><div class="text-center [word-wrap:break-work] w-full font-medium text-xs text-negative">error
+			<span class="hidden font-sans group-hover:inline-block absolute top-[50%] left-[50%] text-sm px-2 py-1 bg-base-100 border border-base-300 leading-relaxed min-w-[150px] max-w-[400px] rounded-md z-50 overflow-visible">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: FROM herd.fact_agent_instance_work faiw
+             ^</span></div></div></div></div>  <div slot="error" class="inline-block font-sans pt-2 pb-3 pr-3 pl-0 mr-3 items-center align-top" style="
+				min-width: undefined;
+				max-width: undefined;
+		"><div width="100%" class="inline-block group w-[100px] relative cursor-help cursor-helpfont-sans box-content grid-cols-1 justify-center bg-negative/10 font-ui font-normal rounded border border-negative/50 h-[38px] mt-0.5 py-3 px-3 print:break-inside-avoid"><div class="font-bold text-center text-sm text-negative" data-svelte-h="svelte-irqt29">Big Value</div> <div class="m-auto w-[100px]"><div class="text-center [word-wrap:break-work] w-full font-medium text-xs text-negative">error
+			<span class="hidden font-sans group-hover:inline-block absolute top-[50%] left-[50%] text-sm px-2 py-1 bg-base-100 border border-base-300 leading-relaxed min-w-[150px] max-w-[400px] rounded-md z-50 overflow-visible">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: FROM herd.fact_agent_instance_work faiw
+             ^</span></div></div></div></div>  <div slot="error" class="inline-block font-sans pt-2 pb-3 pr-3 pl-0 mr-3 items-center align-top" style="
+				min-width: undefined;
+				max-width: undefined;
+		"><div width="100%" class="inline-block group w-[100px] relative cursor-help cursor-helpfont-sans box-content grid-cols-1 justify-center bg-negative/10 font-ui font-normal rounded border border-negative/50 h-[38px] mt-0.5 py-3 px-3 print:break-inside-avoid"><div class="font-bold text-center text-sm text-negative" data-svelte-h="svelte-irqt29">Big Value</div> <div class="m-auto w-[100px]"><div class="text-center [word-wrap:break-work] w-full font-medium text-xs text-negative">error
+			<span class="hidden font-sans group-hover:inline-block absolute top-[50%] left-[50%] text-sm px-2 py-1 bg-base-100 border border-base-300 leading-relaxed min-w-[150px] max-w-[400px] rounded-md z-50 overflow-visible">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: FROM herd.fact_agent_instance_work faiw
+             ^</span></div></div></div></div>  <div slot="error" class="inline-block font-sans pt-2 pb-3 pr-3 pl-0 mr-3 items-center align-top" style="
+				min-width: undefined;
+				max-width: undefined;
+		"><div width="100%" class="inline-block group w-[100px] relative cursor-help cursor-helpfont-sans box-content grid-cols-1 justify-center bg-negative/10 font-ui font-normal rounded border border-negative/50 h-[38px] mt-0.5 py-3 px-3 print:break-inside-avoid"><div class="font-bold text-center text-sm text-negative" data-svelte-h="svelte-irqt29">Big Value</div> <div class="m-auto w-[100px]"><div class="text-center [word-wrap:break-work] w-full font-medium text-xs text-negative">error
+			<span class="hidden font-sans group-hover:inline-block absolute top-[50%] left-[50%] text-sm px-2 py-1 bg-base-100 border border-base-300 leading-relaxed min-w-[150px] max-w-[400px] rounded-md z-50 overflow-visible">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: FROM herd.fact_agent_instance_work faiw
+             ^</span></div></div></div></div></div> <hr class="markdown"> <h2 class="markdown" id="first-pass-success-by-ticket-size" data-svelte-h="svelte-1xhjvp7"><a href="#first-pass-success-by-ticket-size">First-Pass Success by Ticket Size</a></h2> <p class="markdown" data-svelte-h="svelte-qem11x"><strong class="markdown">Question</strong>: Do smaller tickets have higher first-pass success rates?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Bar Chart</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 7: FROM herd.fact_agent_instance_work faiw
+             ^</pre></div></div></div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 7: FROM herd.fact_agent_instance_work faiw
+             ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="success-rate-by-agent-role" data-svelte-h="svelte-1i6pal5"><a href="#success-rate-by-agent-role">Success Rate by Agent Role</a></h2> <p class="markdown" data-svelte-h="svelte-5f3zx4"><strong class="markdown">Question</strong>: Which agent roles have the highest success rates?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Bar Chart</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: FROM herd.fact_agent_instance_work faiw
+             ^</pre></div></div></div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: FROM herd.fact_agent_instance_work faiw
+             ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="clean-vs-churn-session-outcomes" data-svelte-h="svelte-17k9svg"><a href="#clean-vs-churn-session-outcomes">Clean vs Churn (Session Outcomes)</a></h2> <p class="markdown" data-svelte-h="svelte-13xnojo"><strong class="markdown">Question</strong>: What are the most common session outcomes?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Bar Chart</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 7: FROM herd.fact_agent_instance_work faiw
+             ^</pre></div></div></div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 7: FROM herd.fact_agent_instance_work faiw
+             ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="craft-impact-on-success" data-svelte-h="svelte-3jc3wo"><a href="#craft-impact-on-success">Craft Impact on Success</a></h2> <p class="markdown" data-svelte-h="svelte-37u8jf"><strong class="markdown">Question</strong>: Do specific craft standards correlate with higher success rates?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: FROM herd.fact_agent_instance_work faiw
+             ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="success-trend-last-30-days" data-svelte-h="svelte-3noc9z"><a href="#success-trend-last-30-days">Success Trend (Last 30 Days)</a></h2> <p class="markdown" data-svelte-h="svelte-1j3nuf9"><strong class="markdown">Question</strong>: Is prompt quality improving over time?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Line Chart</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: LEFT JOIN herd.fact_agent_instance_work faiw
+                  ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="correlation-first-pass-qa-vs-prompt-quality" data-svelte-h="svelte-15i6ycc"><a href="#correlation-first-pass-qa-vs-prompt-quality">Correlation: First-Pass QA vs Prompt Quality</a></h2> <p class="markdown" data-svelte-h="svelte-1ndyp9u"><strong class="markdown">Question</strong>: Does initial session success predict QA pass rate?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Bar Chart</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_ticket does not exist!
+Did you mean "dim_date"?
+
+LINE 9:     FROM herd.dim_ticket dt
+                 ^</pre></div></div></div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name dim_ticket does not exist!
+Did you mean "dim_date"?
+
+LINE 9:     FROM herd.dim_ticket dt
+                 ^</pre></div></div></div> <hr class="markdown"> <h2 class="markdown" id="model-performance-by-outcome" data-svelte-h="svelte-vtjc4k"><a href="#model-performance-by-outcome">Model Performance by Outcome</a></h2> <p class="markdown" data-svelte-h="svelte-1s7fjqb"><strong class="markdown">Question</strong>: Which models achieve the highest success rates?</p> <div class="over-container svelte-1p12lev"> </div>  <div width="100%" class="grid grid-rows-auto grid-cols-1 justify-center relative
+			bg-negative/10 text-negative
+			font-ui font-normal
+			rounded border border-negative/50
+			py-5 px-8 mt-2 mb-4
+			print:break-inside-avoid" style="min-height: 200px"><div class="m-auto w-full"><div class="font-bold text-center text-lg">Data Table</div> <div class="w-full [word-wrap:break-work] text-xs"><pre class="text-left font-sans mx-auto w-fit select-text text-wrap">Catalog Error: Table with name fact_agent_instance_work does not exist!
+Did you mean "information_schema.constraint_table_usage"?
+
+LINE 8: FROM herd.fact_agent_instance_work faiw
+             ^</pre></div></div></div></article></main> <div class="print:hidden"><aside class="hidden lg:block w-48"><div class="fixed w-48 top-20 bottom-20 pl-4 px-3 overflow-auto pretty-scrollbar"></div></aside></div></div></div>  
+			<script type="application/json" data-sveltekit-fetched data-url="/api/customFormattingSettings.json/GET.json">{"status":200,"statusText":"","headers":{},"body":"{\"customFormattingSettings\":{\"version\":\"1.0\",\"customFormats\":[]}}"}</script>
+			<script type="application/json" data-sveltekit-fetched data-url="/api/pagesManifest.json">{"status":200,"statusText":"","headers":{},"body":"{\"label\":\"Home\",\"href\":\"/\",\"children\":{\"agents\":{\"label\":\"agents\",\"href\":\"/agents\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"architect\":{\"label\":\"architect\",\"href\":\"/architect\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"costs\":{\"label\":\"costs\",\"href\":\"/costs\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"efficiency\":{\"label\":\"efficiency\",\"href\":\"/efficiency\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"pipeline\":{\"label\":\"pipeline\",\"href\":\"/pipeline\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"prompts\":{\"label\":\"prompts\",\"href\":\"/prompts\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"qa\":{\"label\":\"qa\",\"href\":\"/qa\",\"children\":{},\"isTemplated\":false,\"isPage\":true},\"sprint\":{\"label\":\"sprint\",\"href\":\"/sprint\",\"children\":{},\"isTemplated\":false,\"isPage\":true}},\"isTemplated\":false,\"isPage\":true}"}</script>
+			<script type="application/json" data-sveltekit-fetched data-url="/api//prompts/evidencemeta.json">{"status":200,"statusText":"","headers":{},"body":"{\"queries\":[{\"id\":\"prompt_overview\",\"compiledQueryString\":\"SELECT\\n    COUNT(DISTINCT faiw.agent_instance_tk) as total_sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successful_sessions,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate,\\n    COUNT(DISTINCT dt.ticket_tk) as tickets_worked,\\n    SUM(faic.total_token_cost_usd) as total_cost\\nFROM herd.fact_agent_instance_work faiw\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nLEFT JOIN herd.dim_ticket dt\\n    ON faiw.ticket_sk = dt.ticket_sk\",\"inputQueryString\":\"SELECT\\n    COUNT(DISTINCT faiw.agent_instance_tk) as total_sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successful_sessions,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate,\\n    COUNT(DISTINCT dt.ticket_tk) as tickets_worked,\\n    SUM(faic.total_token_cost_usd) as total_cost\\nFROM herd.fact_agent_instance_work faiw\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nLEFT JOIN herd.dim_ticket dt\\n    ON faiw.ticket_sk = dt.ticket_sk\",\"compiled\":false,\"inline\":true},{\"id\":\"success_by_size\",\"compiledQueryString\":\"SELECT\\n    dt.ticket_tshirt_size,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate\\nFROM herd.fact_agent_instance_work faiw\\nJOIN herd.dim_ticket dt\\n    ON faiw.ticket_sk = dt.ticket_sk\\nWHERE dt.is_current = true\\n  AND NOT dt.is_deleted\\n  AND dt.ticket_tshirt_size IS NOT NULL\\nGROUP BY dt.ticket_tshirt_size\\nORDER BY\\n    CASE dt.ticket_tshirt_size\\n        WHEN 'XS' THEN 1\\n        WHEN 'S' THEN 2\\n        WHEN 'M' THEN 3\\n        WHEN 'L' THEN 4\\n        WHEN 'XL' THEN 5\\n        ELSE 6\\n    END\",\"inputQueryString\":\"SELECT\\n    dt.ticket_tshirt_size,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate\\nFROM herd.fact_agent_instance_work faiw\\nJOIN herd.dim_ticket dt\\n    ON faiw.ticket_sk = dt.ticket_sk\\nWHERE dt.is_current = true\\n  AND NOT dt.is_deleted\\n  AND dt.ticket_tshirt_size IS NOT NULL\\nGROUP BY dt.ticket_tshirt_size\\nORDER BY\\n    CASE dt.ticket_tshirt_size\\n        WHEN 'XS' THEN 1\\n        WHEN 'S' THEN 2\\n        WHEN 'M' THEN 3\\n        WHEN 'L' THEN 4\\n        WHEN 'XL' THEN 5\\n        ELSE 6\\n    END\",\"compiled\":false,\"inline\":true},{\"id\":\"success_by_role\",\"compiledQueryString\":\"SELECT\\n    da.agent_role,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate,\\n    SUM(faic.total_token_cost_usd) as total_cost\\nFROM herd.fact_agent_instance_work faiw\\nJOIN herd.dim_agent da\\n    ON faiw.agent_sk = da.agent_sk\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\nGROUP BY da.agent_role\\nORDER BY success_rate DESC\",\"inputQueryString\":\"SELECT\\n    da.agent_role,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate,\\n    SUM(faic.total_token_cost_usd) as total_cost\\nFROM herd.fact_agent_instance_work faiw\\nJOIN herd.dim_agent da\\n    ON faiw.agent_sk = da.agent_sk\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nWHERE da.is_current = true\\n  AND NOT da.is_deleted\\nGROUP BY da.agent_role\\nORDER BY success_rate DESC\",\"compiled\":false,\"inline\":true},{\"id\":\"session_outcomes\",\"compiledQueryString\":\"SELECT\\n    faiw.agent_instance_outcome,\\n    COUNT(*) as count,\\n    SUM(faic.total_token_cost_usd) as total_cost,\\n    ROUND(AVG(faiw.instance_duration_minutes), 1) as avg_duration\\nFROM herd.fact_agent_instance_work faiw\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nWHERE faiw.agent_instance_outcome IS NOT NULL\\nGROUP BY faiw.agent_instance_outcome\\nORDER BY count DESC\",\"inputQueryString\":\"SELECT\\n    faiw.agent_instance_outcome,\\n    COUNT(*) as count,\\n    SUM(faic.total_token_cost_usd) as total_cost,\\n    ROUND(AVG(faiw.instance_duration_minutes), 1) as avg_duration\\nFROM herd.fact_agent_instance_work faiw\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nWHERE faiw.agent_instance_outcome IS NOT NULL\\nGROUP BY faiw.agent_instance_outcome\\nORDER BY count DESC\",\"compiled\":false,\"inline\":true},{\"id\":\"craft_impact\",\"compiledQueryString\":\"SELECT\\n    dc.craft_code,\\n    dc.craft_description,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate\\nFROM herd.fact_agent_instance_work faiw\\nJOIN herd.dim_craft dc\\n    ON faiw.craft_sk = dc.craft_sk\\nGROUP BY dc.craft_code, dc.craft_description\\nORDER BY success_rate DESC\",\"inputQueryString\":\"SELECT\\n    dc.craft_code,\\n    dc.craft_description,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate\\nFROM herd.fact_agent_instance_work faiw\\nJOIN herd.dim_craft dc\\n    ON faiw.craft_sk = dc.craft_sk\\nGROUP BY dc.craft_code, dc.craft_description\\nORDER BY success_rate DESC\",\"compiled\":false,\"inline\":true},{\"id\":\"success_trend\",\"compiledQueryString\":\"SELECT\\n    dd.date_actual as date,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / NULLIF(COUNT(DISTINCT faiw.agent_instance_tk), 0), 1) as success_rate\\nFROM herd.dim_date dd\\nLEFT JOIN herd.fact_agent_instance_work faiw\\n    ON CAST(strftime(faiw.agent_instance_started_at, '%Y%m%d') AS INTEGER) = dd.date_sk\\nWHERE dd.date_actual >= CURRENT_DATE - INTERVAL '30 days'\\n  AND dd.date_actual \u003C= CURRENT_DATE\\nGROUP BY dd.date_actual\\nORDER BY dd.date_actual\",\"inputQueryString\":\"SELECT\\n    dd.date_actual as date,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / NULLIF(COUNT(DISTINCT faiw.agent_instance_tk), 0), 1) as success_rate\\nFROM herd.dim_date dd\\nLEFT JOIN herd.fact_agent_instance_work faiw\\n    ON CAST(strftime(faiw.agent_instance_started_at, '%Y%m%d') AS INTEGER) = dd.date_sk\\nWHERE dd.date_actual >= CURRENT_DATE - INTERVAL '30 days'\\n  AND dd.date_actual \u003C= CURRENT_DATE\\nGROUP BY dd.date_actual\\nORDER BY dd.date_actual\",\"compiled\":false,\"inline\":true},{\"id\":\"qa_prompt_correlation\",\"compiledQueryString\":\"WITH first_session_per_ticket AS (\\n    SELECT\\n        dt.ticket_tk,\\n        dt.ticket_code,\\n        faiw.agent_instance_tk,\\n        faiw.agent_instance_outcome,\\n        ROW_NUMBER() OVER (PARTITION BY dt.ticket_tk ORDER BY faiw.agent_instance_started_at) as rn\\n    FROM herd.dim_ticket dt\\n    JOIN herd.fact_agent_instance_work faiw\\n        ON dt.ticket_sk = faiw.ticket_sk\\n    WHERE dt.is_current = true\\n      AND NOT dt.is_deleted\\n),\\nfirst_review_per_ticket AS (\\n    SELECT\\n        fpd.ticket_sk,\\n        frq.review_round,\\n        frq.review_verdict,\\n        ROW_NUMBER() OVER (PARTITION BY fpd.ticket_sk ORDER BY frq.review_completed_at) as rn\\n    FROM herd.fact_review_quality frq\\n    JOIN herd.fact_pr_delivery fpd\\n        ON frq.pull_request_sk = fpd.pull_request_sk\\n)\\nSELECT\\n    fs.agent_instance_outcome as prompt_quality,\\n    COUNT(*) as ticket_count,\\n    SUM(CASE WHEN fr.review_round = 1 AND fr.review_verdict = 'approved' THEN 1 ELSE 0 END) as first_pass_qa,\\n    ROUND(100.0 * SUM(CASE WHEN fr.review_round = 1 AND fr.review_verdict = 'approved' THEN 1 ELSE 0 END) / COUNT(*), 1) as first_pass_rate\\nFROM first_session_per_ticket fs\\nLEFT JOIN first_review_per_ticket fr\\n    ON fs.ticket_tk = fr.ticket_sk\\n    AND fr.rn = 1\\nWHERE fs.rn = 1\\n  AND fs.agent_instance_outcome IS NOT NULL\\nGROUP BY fs.agent_instance_outcome\\nORDER BY first_pass_rate DESC\",\"inputQueryString\":\"WITH first_session_per_ticket AS (\\n    SELECT\\n        dt.ticket_tk,\\n        dt.ticket_code,\\n        faiw.agent_instance_tk,\\n        faiw.agent_instance_outcome,\\n        ROW_NUMBER() OVER (PARTITION BY dt.ticket_tk ORDER BY faiw.agent_instance_started_at) as rn\\n    FROM herd.dim_ticket dt\\n    JOIN herd.fact_agent_instance_work faiw\\n        ON dt.ticket_sk = faiw.ticket_sk\\n    WHERE dt.is_current = true\\n      AND NOT dt.is_deleted\\n),\\nfirst_review_per_ticket AS (\\n    SELECT\\n        fpd.ticket_sk,\\n        frq.review_round,\\n        frq.review_verdict,\\n        ROW_NUMBER() OVER (PARTITION BY fpd.ticket_sk ORDER BY frq.review_completed_at) as rn\\n    FROM herd.fact_review_quality frq\\n    JOIN herd.fact_pr_delivery fpd\\n        ON frq.pull_request_sk = fpd.pull_request_sk\\n)\\nSELECT\\n    fs.agent_instance_outcome as prompt_quality,\\n    COUNT(*) as ticket_count,\\n    SUM(CASE WHEN fr.review_round = 1 AND fr.review_verdict = 'approved' THEN 1 ELSE 0 END) as first_pass_qa,\\n    ROUND(100.0 * SUM(CASE WHEN fr.review_round = 1 AND fr.review_verdict = 'approved' THEN 1 ELSE 0 END) / COUNT(*), 1) as first_pass_rate\\nFROM first_session_per_ticket fs\\nLEFT JOIN first_review_per_ticket fr\\n    ON fs.ticket_tk = fr.ticket_sk\\n    AND fr.rn = 1\\nWHERE fs.rn = 1\\n  AND fs.agent_instance_outcome IS NOT NULL\\nGROUP BY fs.agent_instance_outcome\\nORDER BY first_pass_rate DESC\",\"compiled\":false,\"inline\":true},{\"id\":\"model_outcomes\",\"compiledQueryString\":\"SELECT\\n    dm.model_code,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate,\\n    SUM(faic.total_token_cost_usd) as total_cost\\nFROM herd.fact_agent_instance_work faiw\\nJOIN herd.dim_model dm\\n    ON faiw.model_sk = dm.model_sk\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nGROUP BY dm.model_code\\nORDER BY success_rate DESC\",\"inputQueryString\":\"SELECT\\n    dm.model_code,\\n    COUNT(DISTINCT faiw.agent_instance_tk) as sessions,\\n    SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) as successes,\\n    ROUND(100.0 * SUM(CASE WHEN faiw.agent_instance_outcome = 'success' THEN 1 ELSE 0 END) / COUNT(DISTINCT faiw.agent_instance_tk), 1) as success_rate,\\n    SUM(faic.total_token_cost_usd) as total_cost\\nFROM herd.fact_agent_instance_work faiw\\nJOIN herd.dim_model dm\\n    ON faiw.model_sk = dm.model_sk\\nLEFT JOIN herd.fact_agent_instance_cost faic\\n    ON faiw.agent_instance_tk = faic.agent_instance_tk\\nGROUP BY dm.model_code\\nORDER BY success_rate DESC\",\"compiled\":false,\"inline\":true}]}"}</script>
+			<script>
+				{
+					__sveltekit_19ztpcm = {
+						base: ""
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("/_app/immutable/entry/start.ubUukobn.js"),
+						import("/_app/immutable/entry/app.BxZfvJQY.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 12],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		
+
+			<!-- SplashScreen -->
+			<div
+				aria-disabled
+				id="__evidence_project_splash"
+				data-test-id="__evidence_project_splash"
+				style="visibility: hidden"
+			>
+				<svg width="100" height="100" viewBox="-8 -8 588 588" xmlns="http://www.w3.org/2000/svg">
+					<path
+						d="M7.19462e-05 74.3583C109.309 74.3583 195.795 86.2578 286.834 37.825C377.872 -10.6077 466.416 1.29174 573.667 1.29175L573.667 126.549C466.416 126.549 377.373 114.91 286.834 163.082C196.294 211.254 109.309 199.615 6.11417e-05 199.615L7.19462e-05 74.3583Z"
+						class="draw-path"
+					/>
+					<path
+						d="M573.669 499.31C464.36 499.31 377.874 487.411 286.835 535.843C195.797 584.276 107.252 572.377 0.0014801 572.377V447.12C107.252 447.12 196.295 458.758 286.835 410.586C377.375 362.415 464.36 374.053 573.669 374.053V499.31Z"
+						class="draw-path"
+					/>
+					<path
+						d="M452.896 186.499C395.028 187.686 341.581 194.947 286.835 224.074C211.396 264.212 136.995 262.826 52.2355 261.247C35.2696 260.931 17.8887 260.608 0.0014801 260.608V385.865C18.1032 385.865 35.6721 386.204 52.81 386.534C137.212 388.162 211.162 389.589 286.835 349.331C341.838 320.07 395.18 312.831 452.896 311.685V186.499Z"
+						class="draw-path"
+					/>
+				</svg>
+			</div>
+		</div>
+	</body>
+</html>
+
+<style>
+	#__evidence_project_splash {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: #ffffff;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 9999;
+	}
+
+	[data-theme='dark'] #__evidence_project_splash {
+		background-color: #000000;
+	}
+
+	.draw-path {
+		fill: #000000;
+		animation: blinking-logo 2s;
+		animation-fill-mode: both;
+		animation-iteration-count: infinite;
+		animation-timing-function: ease-in-out;
+	}
+
+	[data-theme='dark'] .draw-path {
+		fill: #ffffff;
+	}
+
+	@keyframes blinking-logo {
+		0% {
+			fill-opacity: 1;
+		}
+		50% {
+			fill-opacity: 0.2;
+		}
+		100% {
+			fill-opacity: 1;
+		}
+	}
+</style>

@@ -1,0 +1,4 @@
+name: herd
+type: duckdb
+options:
+  filename: herddb.duckdb

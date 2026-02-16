@@ -14,3 +14,9 @@ build/
 data/
 .herd/herd.lance/
 .herd/sessions/
+.herd/evidence/node_modules/
+.herd/evidence/.evidence/
+.herd/evidence/build/
+.herd/dbt/target/
+.herd/dbt/logs/
+.herd/dbt/.user.yml

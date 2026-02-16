@@ -1,0 +1,60 @@
+# Evidence Configuration — Herd Analytics
+# https://docs.evidence.dev/configuration/
+
+appearance:
+  default: system
+  switcher: true
+
+theme:
+  colorPalettes:
+    default:
+      light:
+        - "#4A90D9"  # Blue
+        - "#7AB648"  # Green
+        - "#D4A843"  # Amber
+        - "#E85D75"  # Red
+        - "#9B59B6"  # Purple
+        - "#3498DB"  # Light Blue
+      dark:
+        - "#4A90D9"
+        - "#7AB648"
+        - "#D4A843"
+        - "#E85D75"
+        - "#9B59B6"
+        - "#3498DB"
+  colorScales:
+    default:
+      light:
+        - "#ADD8E6"
+        - "#2C3E50"
+      dark:
+        - "#ADD8E6"
+        - "#2C3E50"
+  colors:
+    primary:
+      light: "#4A90D9"
+      dark: "#4A90D9"
+    accent:
+      light: "#D4A843"
+      dark: "#D4A843"
+    base:
+      light: "#ffffff"
+      dark: "#09090b"
+    info:
+      light: "#3498DB"
+      dark: "#3498DB"
+    positive:
+      light: "#7AB648"
+      dark: "#7AB648"
+    warning:
+      light: "#D4A843"
+      dark: "#D4A843"
+    negative:
+      light: "#E85D75"
+      dark: "#E85D75"
+
+plugins:
+  components:
+    "@evidence-dev/core-components": {}
+  datasources:
+    "@evidence-dev/duckdb": {}

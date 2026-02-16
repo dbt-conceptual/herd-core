@@ -1,0 +1,25 @@
+name: herd_analytics
+version: 0.1.0
+config-version: 2
+
+profile: herd
+
+model-paths: ["models"]
+macro-paths: ["macros"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+target-path: target
+
+models:
+  herd_analytics:
+    silver:
+      dwsa:
+        +materialized: view
+        +schema: herd
+      dwh:
+        +materialized: incremental
+        +schema: dwh
+    gold:
+      dm:
+        +materialized: table
+        +schema: mart
