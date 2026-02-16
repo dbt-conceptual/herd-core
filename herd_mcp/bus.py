@@ -1,18 +1,24 @@
-"""In-memory message bus for agent-to-agent communication.
+"""Message bus for agent-to-agent communication with DiskCache persistence.
 
 Provides addressed message routing with support for direct, broadcast,
-and competing-consumer delivery patterns. Lives inside the MCP server
-process — cross-host delivery happens transparently via HTTP transport.
+and competing-consumer delivery patterns. Uses an in-memory hot cache for
+same-session delivery and DiskCache Deque for persistence across restarts.
+
+Storage path: $HERD_PROJECT_PATH/data/messages/ (default ~/herd/data/messages/).
 """
 
 from __future__ import annotations
 
 import asyncio
 import logging
+import os
 import uuid
 from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 from typing import NamedTuple
+
+import diskcache
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +32,35 @@ LEADER_AGENTS: frozenset[str] = frozenset({"steve", "leonardo"})
 MAX_MESSAGE_AGE = timedelta(hours=1)
 
 
+def _extract_read_by(raw: str | list[str] | datetime) -> set[str]:
+    """Extract read_by set from deserialized data.
+
+    Args:
+        raw: Value from the serialized dict (expected to be list[str]).
+
+    Returns:
+        Set of reader instance IDs.
+    """
+    if isinstance(raw, list):
+        return {item for item in raw if isinstance(item, str)}
+    return set()
+
+
+def _default_storage_path() -> Path:
+    """Resolve the DiskCache storage directory for message queues.
+
+    Uses HERD_PROJECT_PATH env var if set, otherwise falls back to ~/herd.
+    Creates the directory tree if it does not exist.
+
+    Returns:
+        Path to the messages storage directory.
+    """
+    project_path = os.getenv("HERD_PROJECT_PATH", os.path.expanduser("~/herd"))
+    path = Path(project_path) / "data" / "messages"
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
 @dataclass
 class Message:
     """A single message on the bus.
@@ -35,8 +70,8 @@ class Message:
         from_addr: Sender address (e.g. mason.inst-a3f7@avalon).
         to_addr: Recipient address (e.g. mason@avalon, @anyone, @everyone).
         body: Free-text message body.
-        type: Message type — "directive", "inform", or "flag".
-        priority: Message priority — "normal" or "urgent".
+        type: Message type -- "directive", "inform", or "flag".
+        priority: Message priority -- "normal" or "urgent".
         sent_at: UTC timestamp when the message was sent.
         read_by: Set of instance IDs that have consumed this message.
     """
@@ -49,6 +84,52 @@ class Message:
     priority: str = "normal"
     sent_at: datetime = field(default_factory=lambda: datetime.now(UTC))
     read_by: set[str] = field(default_factory=set)
+
+    def to_dict(self) -> dict[str, str | list[str] | datetime]:
+        """Serialize to a JSON-safe dict for DiskCache storage.
+
+        Returns:
+            Dict representation with ISO-formatted timestamp and list for read_by.
+        """
+        return {
+            "id": self.id,
+            "from_addr": self.from_addr,
+            "to_addr": self.to_addr,
+            "body": self.body,
+            "type": self.type,
+            "priority": self.priority,
+            "sent_at": self.sent_at.isoformat(),
+            "read_by": list(self.read_by),
+        }
+
+    @classmethod
+    def from_dict(cls, data: dict[str, str | list[str] | datetime]) -> Message:
+        """Deserialize from a dict (as stored in DiskCache).
+
+        Args:
+            data: Dict with message fields.
+
+        Returns:
+            Reconstructed Message instance.
+        """
+        raw_sent_at = data["sent_at"]
+        sent_at: datetime
+        if isinstance(raw_sent_at, str):
+            sent_at = datetime.fromisoformat(raw_sent_at)
+        elif isinstance(raw_sent_at, datetime):
+            sent_at = raw_sent_at
+        else:
+            sent_at = datetime.now(UTC)
+        return cls(
+            id=str(data["id"]),
+            from_addr=str(data["from_addr"]),
+            to_addr=str(data["to_addr"]),
+            body=str(data["body"]),
+            type=str(data.get("type", "inform")),
+            priority=str(data.get("priority", "normal")),
+            sent_at=sent_at,
+            read_by=_extract_read_by(data.get("read_by", [])),
+        )
 
 
 class ParsedAddress(NamedTuple):
@@ -88,13 +169,7 @@ def parse_address(addr: str) -> ParsedAddress:
 
     # Handle broadcast addresses that start with @
     if addr.startswith("@"):
-        # Could be @anyone, @anyone@avalon, @everyone, @everyone@avalon
-        # Split on @ — first element is empty string, second is keyword,
-        # optional third is team.
         parts = addr.split("@")
-        # parts[0] is always "" (before first @)
-        # parts[1] is the keyword (anyone/everyone)
-        # parts[2] if present is the team
         agent = f"@{parts[1]}"
         if len(parts) >= 3 and parts[2]:
             team = parts[2]
@@ -116,16 +191,69 @@ def parse_address(addr: str) -> ParsedAddress:
 
 
 class MessageBus:
-    """In-memory message bus. Lives inside the MCP server process.
+    """Message bus with in-memory hot cache and DiskCache persistence.
+
+    In-memory list provides fast same-session delivery. DiskCache provides
+    durability across MCP server restarts. Both layers are kept in sync:
+    send writes to both, read consumes from both.
 
     Thread-safe via asyncio.Lock. Supports direct, broadcast (@everyone),
     and competing-consumer (@anyone) delivery patterns with team scoping
     and leader visibility.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, storage_path: Path | None = None) -> None:
+        """Initialize the message bus.
+
+        Args:
+            storage_path: Override path for DiskCache storage.
+                          Defaults to HERD_PROJECT_PATH/data/messages/.
+        """
         self._messages: list[Message] = []
         self._lock: asyncio.Lock = asyncio.Lock()
+
+        # Initialize DiskCache for persistence
+        resolved_path = storage_path or _default_storage_path()
+        self._disk: diskcache.Cache = diskcache.Cache(str(resolved_path))
+
+        # Rehydrate in-memory cache from disk on startup
+        self._rehydrate()
+
+    def _rehydrate(self) -> None:
+        """Load persisted messages from DiskCache into the in-memory list.
+
+        Called once during __init__ to restore state after a restart.
+        Prunes expired messages during rehydration.
+        """
+        cutoff = datetime.now(UTC) - MAX_MESSAGE_AGE
+        restored = 0
+        expired = 0
+
+        for key in list(self._disk):
+            try:
+                data = self._disk[key]
+                msg = Message.from_dict(data)
+                if msg.sent_at > cutoff:
+                    self._messages.append(msg)
+                    restored += 1
+                else:
+                    del self._disk[key]
+                    expired += 1
+            except (KeyError, TypeError, ValueError) as exc:
+                logger.warning(
+                    "Skipping corrupt message %s during rehydration: %s", key, exc
+                )
+                try:
+                    del self._disk[key]
+                except KeyError:
+                    pass
+
+        if restored or expired:
+            logger.info(
+                "Rehydrated %d messages from disk (%d expired pruned)",
+                restored,
+                expired,
+            )
 
     async def send(
         self,
@@ -137,11 +265,13 @@ class MessageBus:
     ) -> Message:
         """Send a message to an address.
 
+        Writes to both the in-memory hot cache and DiskCache for persistence.
+
         Args:
             from_addr: Sender address string.
             to_addr: Recipient address string.
             body: Message body text.
-            msg_type: Message type — "directive", "inform", or "flag".
+            msg_type: Message type -- "directive", "inform", or "flag".
             priority: "normal" or "urgent".
 
         Returns:
@@ -157,6 +287,7 @@ class MessageBus:
         )
         async with self._lock:
             self._messages.append(msg)
+            self._disk[msg.id] = msg.to_dict()
         logger.info(
             "Message %s sent from %s to %s (priority=%s)",
             msg.id,
@@ -178,6 +309,8 @@ class MessageBus:
         For @everyone messages, the message is tracked via read_by and only
         removed when all active agents have read it (or it expires).
 
+        Consumed messages are removed from both the in-memory cache and DiskCache.
+
         Args:
             agent: Agent code of the reader (e.g. "mason").
             instance: Instance ID of the reader (e.g. "inst-a3f7b2c1").
@@ -195,20 +328,18 @@ class MessageBus:
                 if match_result:
                     parsed = parse_address(msg.to_addr)
                     if parsed.agent == "@everyone":
-                        # Track reader, return message but keep it on the bus
                         inst_key = instance or agent
                         if inst_key not in msg.read_by:
                             msg.read_by.add(inst_key)
                             matched.append(msg)
+                            self._disk[msg.id] = msg.to_dict()
                         remaining.append(msg)
                     elif parsed.agent == "@anyone":
-                        # Competing consumer — first reader takes it
                         matched.append(msg)
-                        # Do NOT add to remaining — consumed
+                        self._disk.pop(msg.id, None)
                     else:
-                        # Direct message — consume it
                         matched.append(msg)
-                        # Do NOT add to remaining — consumed
+                        self._disk.pop(msg.id, None)
                 else:
                     remaining.append(msg)
             self._messages = remaining
@@ -242,13 +373,11 @@ class MessageBus:
         """
         parsed = parse_address(message.to_addr)
 
-        # @everyone broadcast
         if parsed.agent == "@everyone":
             if parsed.team is None:
                 return True
             return team == parsed.team
 
-        # @anyone competing consumer
         if parsed.agent == "@anyone":
             if agent in MECHANICAL_AGENTS:
                 return False
@@ -256,43 +385,52 @@ class MessageBus:
                 return False
             return True
 
-        # Instance-specific: exact match required
         if parsed.instance is not None:
             return instance == parsed.instance
 
-        # Agent-level with team
         if parsed.team is not None:
             if parsed.agent == agent and team == parsed.team:
                 return True
-            # Leader visibility: leaders see all team-scoped messages
             if agent in LEADER_AGENTS and team == parsed.team:
                 return True
             return False
 
-        # Agent-level without team
         return parsed.agent == agent
 
     def _prune_expired(self) -> None:
-        """Remove messages older than MAX_MESSAGE_AGE.
+        """Remove messages older than MAX_MESSAGE_AGE from memory and disk.
 
         Called under the lock from read(). No separate scheduling needed.
         """
         cutoff = datetime.now(UTC) - MAX_MESSAGE_AGE
         before = len(self._messages)
-        self._messages = [m for m in self._messages if m.sent_at > cutoff]
+        pruned_ids: list[str] = []
+        kept: list[Message] = []
+        for m in self._messages:
+            if m.sent_at > cutoff:
+                kept.append(m)
+            else:
+                pruned_ids.append(m.id)
+        self._messages = kept
+        for msg_id in pruned_ids:
+            self._disk.pop(msg_id, None)
         pruned = before - len(self._messages)
         if pruned:
             logger.info("Pruned %d expired messages", pruned)
 
+    def close(self) -> None:
+        """Close the DiskCache backend.
+
+        Should be called during server shutdown for clean resource release.
+        """
+        self._disk.close()
+
 
 # ---------------------------------------------------------------------------
-# Checkin registry — in-memory heartbeat and status tracking
+# Checkin registry -- in-memory heartbeat and status tracking
 # ---------------------------------------------------------------------------
 
-# Unresponsive threshold: agents not heard from in 10 minutes.
 UNRESPONSIVE_THRESHOLD = timedelta(seconds=600)
-
-# Stale threshold: agents not heard from in 5 minutes.
 STALE_THRESHOLD = timedelta(seconds=300)
 
 
