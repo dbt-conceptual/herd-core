@@ -100,6 +100,75 @@ else:
         stateless_http=True,
     )
 
+# ---------------------------------------------------------------------------
+# Tool-level authorization for OAuth sessions (HDR-0040)
+# ---------------------------------------------------------------------------
+# When OAuth mode is active, all requests come from advisor sessions.
+# Only ADVISOR_TOOLS are visible and callable. Agent-only tools are blocked.
+# This does NOT affect non-OAuth mode (local/agent deployments).
+
+if _oauth_provider is not None:
+    from mcp import types as _mcp_types
+
+    from .auth import ADVISOR_TOOLS as _ADVISOR_TOOLS
+
+    _original_list_tools_handler = mcp._mcp_server.request_handlers[
+        _mcp_types.ListToolsRequest
+    ]
+    _original_call_tool_handler = mcp._mcp_server.request_handlers[
+        _mcp_types.CallToolRequest
+    ]
+
+    async def _filtered_list_tools_handler(
+        req: _mcp_types.ListToolsRequest,
+    ) -> _mcp_types.ServerResult:
+        """Filter tool listing to only expose ADVISOR_TOOLS in OAuth mode."""
+        result = await _original_list_tools_handler(req)
+        if isinstance(result, _mcp_types.ServerResult) and isinstance(
+            result.root, _mcp_types.ListToolsResult
+        ):
+            filtered = [t for t in result.root.tools if t.name in _ADVISOR_TOOLS]
+            return _mcp_types.ServerResult(_mcp_types.ListToolsResult(tools=filtered))
+        return result
+
+    async def _gated_call_tool_handler(
+        req: _mcp_types.CallToolRequest,
+    ) -> _mcp_types.ServerResult:
+        """Block calls to non-advisor tools in OAuth mode."""
+        tool_name = req.params.name
+        if tool_name not in _ADVISOR_TOOLS:
+            logger.warning("OAuth session attempted blocked tool: %s", tool_name)
+            return _mcp_types.ServerResult(
+                _mcp_types.CallToolResult(
+                    content=[
+                        _mcp_types.TextContent(
+                            type="text",
+                            text=(
+                                f"Access denied: tool '{tool_name}' is not "
+                                f"available to advisor sessions. "
+                                f"Available tools: "
+                                f"{', '.join(sorted(_ADVISOR_TOOLS))}"
+                            ),
+                        )
+                    ],
+                    isError=True,
+                )
+            )
+        return await _original_call_tool_handler(req)
+
+    mcp._mcp_server.request_handlers[_mcp_types.ListToolsRequest] = (
+        _filtered_list_tools_handler
+    )
+    mcp._mcp_server.request_handlers[_mcp_types.CallToolRequest] = (
+        _gated_call_tool_handler
+    )
+
+    logger.info(
+        "Tool authorization active: %d of %d tools exposed to advisors",
+        len(_ADVISOR_TOOLS),
+        len(mcp._tool_manager.list_tools()),
+    )
+
 # Global message bus (in-memory hot cache + DiskCache persistence)
 bus = MessageBus()
 

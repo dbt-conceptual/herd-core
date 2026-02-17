@@ -13,6 +13,7 @@ from mcp.server.auth.provider import (
     RefreshToken,
 )
 from mcp.shared.auth import OAuthClientInformationFull
+from mcp.server.fastmcp import FastMCP
 from pydantic import AnyUrl
 
 from herd_mcp.auth import (
@@ -881,3 +882,181 @@ class TestFullOAuthFlow:
         # Step 8: Revoke token
         await provider.revoke_token(access)
         assert await provider.load_access_token(oauth_token.access_token) is None
+
+
+# ---------------------------------------------------------------------------
+# Tool-Level Gating Integration Tests (HDR-0040)
+# ---------------------------------------------------------------------------
+
+
+class TestToolGatingIntegration:
+    """Tests for server-level tool authorization gating.
+
+    Verifies that when OAuth mode is active, the request handler
+    wrappers correctly filter list_tools and block call_tool for
+    non-advisor tools. Uses an isolated FastMCP instance to avoid
+    polluting the shared module-level server.
+    """
+
+    @pytest.fixture
+    def gated_mcp(self) -> "FastMCP":
+        """Create a FastMCP instance with tool gating applied."""
+        from mcp import types as mcp_types
+        from mcp.server.fastmcp import FastMCP
+
+        from herd_mcp.auth import ADVISOR_TOOLS
+
+        app = FastMCP("test-gated")
+
+        # Register a mix of advisor and non-advisor tools
+        @app.tool()
+        async def herd_status(scope: str = "all") -> dict:
+            """Advisor tool."""
+            return {"scope": scope}
+
+        @app.tool()
+        async def herd_recall(query: str) -> dict:
+            """Advisor tool."""
+            return {"query": query}
+
+        @app.tool()
+        async def herd_assign(ticket_id: str) -> dict:
+            """Non-advisor tool."""
+            return {"ticket_id": ticket_id}
+
+        @app.tool()
+        async def herd_review(pr_number: int) -> dict:
+            """Non-advisor tool."""
+            return {"pr_number": pr_number}
+
+        # Apply the same gating logic as server.py
+        original_list = app._mcp_server.request_handlers[mcp_types.ListToolsRequest]
+        original_call = app._mcp_server.request_handlers[mcp_types.CallToolRequest]
+
+        async def filtered_list(
+            req: mcp_types.ListToolsRequest,
+        ) -> mcp_types.ServerResult:
+            result = await original_list(req)
+            if isinstance(result, mcp_types.ServerResult) and isinstance(
+                result.root, mcp_types.ListToolsResult
+            ):
+                filtered = [t for t in result.root.tools if t.name in ADVISOR_TOOLS]
+                return mcp_types.ServerResult(mcp_types.ListToolsResult(tools=filtered))
+            return result
+
+        async def gated_call(
+            req: mcp_types.CallToolRequest,
+        ) -> mcp_types.ServerResult:
+            tool_name = req.params.name
+            if tool_name not in ADVISOR_TOOLS:
+                return mcp_types.ServerResult(
+                    mcp_types.CallToolResult(
+                        content=[
+                            mcp_types.TextContent(
+                                type="text",
+                                text=(
+                                    f"Access denied: tool '{tool_name}' is not "
+                                    f"available to advisor sessions."
+                                ),
+                            )
+                        ],
+                        isError=True,
+                    )
+                )
+            return await original_call(req)
+
+        app._mcp_server.request_handlers[mcp_types.ListToolsRequest] = filtered_list
+        app._mcp_server.request_handlers[mcp_types.CallToolRequest] = gated_call
+
+        return app
+
+    @pytest.mark.asyncio
+    async def test_list_tools_filters_to_advisor_only(
+        self, gated_mcp: "FastMCP"
+    ) -> None:
+        """list_tools only returns tools in ADVISOR_TOOLS when gated."""
+        from mcp import types as mcp_types
+
+        handler = gated_mcp._mcp_server.request_handlers[mcp_types.ListToolsRequest]
+        req = mcp_types.ListToolsRequest(method="tools/list")
+        result = await handler(req)
+
+        assert isinstance(result, mcp_types.ServerResult)
+        assert isinstance(result.root, mcp_types.ListToolsResult)
+
+        tool_names = [t.name for t in result.root.tools]
+        assert "herd_status" in tool_names
+        assert "herd_recall" in tool_names
+        assert "herd_assign" not in tool_names
+        assert "herd_review" not in tool_names
+
+    @pytest.mark.asyncio
+    async def test_call_tool_blocks_non_advisor_tool(
+        self, gated_mcp: "FastMCP"
+    ) -> None:
+        """Calling a non-advisor tool returns an error when gated."""
+        from mcp import types as mcp_types
+
+        handler = gated_mcp._mcp_server.request_handlers[mcp_types.CallToolRequest]
+        req = mcp_types.CallToolRequest(
+            method="tools/call",
+            params=mcp_types.CallToolRequestParams(
+                name="herd_assign",
+                arguments={"ticket_id": "DBC-999"},
+            ),
+        )
+        result = await handler(req)
+
+        assert isinstance(result, mcp_types.ServerResult)
+        assert isinstance(result.root, mcp_types.CallToolResult)
+        assert result.root.isError is True
+        assert len(result.root.content) == 1
+        assert "Access denied" in result.root.content[0].text
+        assert "herd_assign" in result.root.content[0].text
+
+    @pytest.mark.asyncio
+    async def test_call_tool_allows_advisor_tool(self, gated_mcp: "FastMCP") -> None:
+        """Calling an advisor tool succeeds when gated."""
+        from mcp import types as mcp_types
+
+        handler = gated_mcp._mcp_server.request_handlers[mcp_types.CallToolRequest]
+        req = mcp_types.CallToolRequest(
+            method="tools/call",
+            params=mcp_types.CallToolRequestParams(
+                name="herd_status",
+                arguments={"scope": "all"},
+            ),
+        )
+        result = await handler(req)
+
+        assert isinstance(result, mcp_types.ServerResult)
+        assert isinstance(result.root, mcp_types.CallToolResult)
+        assert result.root.isError is not True
+
+    @pytest.mark.asyncio
+    async def test_ungated_server_exposes_all_tools(self) -> None:
+        """Without gating, all tools are visible (non-OAuth mode)."""
+        from mcp import types as mcp_types
+        from mcp.server.fastmcp import FastMCP
+
+        app = FastMCP("test-ungated")
+
+        @app.tool()
+        async def herd_status(scope: str = "all") -> dict:
+            return {"scope": scope}
+
+        @app.tool()
+        async def herd_assign(ticket_id: str) -> dict:
+            return {"ticket_id": ticket_id}
+
+        handler = app._mcp_server.request_handlers[mcp_types.ListToolsRequest]
+        req = mcp_types.ListToolsRequest(method="tools/list")
+        result = await handler(req)
+
+        assert isinstance(result, mcp_types.ServerResult)
+        assert isinstance(result.root, mcp_types.ListToolsResult)
+
+        tool_names = [t.name for t in result.root.tools]
+        assert "herd_status" in tool_names
+        assert "herd_assign" in tool_names
+        assert len(tool_names) == 2
