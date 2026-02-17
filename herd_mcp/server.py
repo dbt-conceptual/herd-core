@@ -1103,7 +1103,7 @@ class _AuthDebugMiddleware(BaseHTTPMiddleware):
         if request.url.path == "/mcp":
             auth_header = request.headers.get("authorization", "")
             if auth_header:
-                logger.debug(
+                logger.warning(
                     "Incoming /mcp request — Auth header present, "
                     "prefix: Bearer %s...",
                     (

@@ -239,11 +239,14 @@ class HerdOAuthProvider:
         # Consume the authorization code (one-time use)
         self.auth_codes.pop(authorization_code.code, None)
 
-        logger.info(
-            "Issued access token for client %s (GitHub user: %s, scopes: %s)",
+        logger.warning(
+            "Issued access token for client %s (GitHub user: %s, scopes: %s, "
+            "token prefix: %s, store size: %d)",
             client.client_id[:8] if client.client_id else "unknown",
             github_user or "unknown",
             access_token.scopes,
+            token_value[:12],
+            len(self.access_tokens),
         )
 
         return OAuthToken(
@@ -265,7 +268,7 @@ class HerdOAuthProvider:
         Returns:
             AccessToken if valid and not expired, None otherwise.
         """
-        logger.debug(
+        logger.warning(
             "load_access_token called — token prefix: %s, store size: %d",
             token[:12] if token else "(empty)",
             len(self.access_tokens),
