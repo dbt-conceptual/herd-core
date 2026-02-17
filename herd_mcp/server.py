@@ -10,14 +10,19 @@ from collections.abc import Awaitable, Callable
 from datetime import datetime, timezone
 from pathlib import Path
 
+from typing import TYPE_CHECKING
+
 from mcp.server.fastmcp import FastMCP
 from starlette.applications import Starlette
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
-from starlette.responses import JSONResponse, Response
+from starlette.responses import JSONResponse, RedirectResponse, Response
 
 from .adapters import AdapterRegistry
 from .bus import CheckinRegistry, MessageBus
+
+if TYPE_CHECKING:
+    from .auth import HerdOAuthProvider
 
 # Import all tool modules
 from .tools import (
@@ -42,13 +47,127 @@ from .tools import (
 
 logger = logging.getLogger(__name__)
 
-# Initialize FastMCP server
-mcp = FastMCP(
-    "herd",
-    host=os.getenv("HERD_API_HOST", "0.0.0.0"),
-    port=int(os.getenv("HERD_API_PORT", "8420")),
-    stateless_http=True,
-)
+# ---------------------------------------------------------------------------
+# Conditional OAuth setup (HDR-0040: GitHub OAuth for public exposure)
+# ---------------------------------------------------------------------------
+
+_github_client_id = os.getenv("GITHUB_CLIENT_ID")
+_oauth_provider: "HerdOAuthProvider | None" = None
+
+if _github_client_id:
+    from mcp.server.auth.settings import AuthSettings, ClientRegistrationOptions
+
+    from .auth import HerdOAuthProvider
+
+    _allowed_users_raw = os.getenv("ALLOWED_GITHUB_USERS", "")
+    _allowed_users = [u.strip() for u in _allowed_users_raw.split(",") if u.strip()]
+    _public_url = os.getenv("HERD_PUBLIC_URL", "https://herd-mcp.eriksen.live")
+
+    _oauth_provider = HerdOAuthProvider(
+        github_client_id=_github_client_id,
+        github_client_secret=os.getenv("GITHUB_CLIENT_SECRET", ""),
+        allowed_users=_allowed_users,
+        public_url=_public_url,
+    )
+
+    mcp = FastMCP(
+        "herd",
+        host=os.getenv("HERD_API_HOST", "0.0.0.0"),
+        port=int(os.getenv("HERD_API_PORT", "8420")),
+        stateless_http=True,
+        auth_server_provider=_oauth_provider,
+        auth=AuthSettings(
+            issuer_url=_public_url,  # type: ignore[arg-type]
+            resource_server_url=_public_url,  # type: ignore[arg-type]
+            client_registration_options=ClientRegistrationOptions(
+                enabled=True,
+                valid_scopes=["herd:advisor"],
+                default_scopes=["herd:advisor"],
+            ),
+            required_scopes=["herd:advisor"],
+        ),
+    )
+    logger.info(
+        "OAuth mode enabled: GitHub client %s, allowed users: %s",
+        _github_client_id[:8],
+        _allowed_users,
+    )
+else:
+    mcp = FastMCP(
+        "herd",
+        host=os.getenv("HERD_API_HOST", "0.0.0.0"),
+        port=int(os.getenv("HERD_API_PORT", "8420")),
+        stateless_http=True,
+    )
+
+# ---------------------------------------------------------------------------
+# Tool-level authorization for OAuth sessions (HDR-0040)
+# ---------------------------------------------------------------------------
+# When OAuth mode is active, all requests come from advisor sessions.
+# Only ADVISOR_TOOLS are visible and callable. Agent-only tools are blocked.
+# This does NOT affect non-OAuth mode (local/agent deployments).
+
+if _oauth_provider is not None:
+    from mcp import types as _mcp_types
+
+    from .auth import ADVISOR_TOOLS as _ADVISOR_TOOLS
+
+    _original_list_tools_handler = mcp._mcp_server.request_handlers[
+        _mcp_types.ListToolsRequest
+    ]
+    _original_call_tool_handler = mcp._mcp_server.request_handlers[
+        _mcp_types.CallToolRequest
+    ]
+
+    async def _filtered_list_tools_handler(
+        req: _mcp_types.ListToolsRequest,
+    ) -> _mcp_types.ServerResult:
+        """Filter tool listing to only expose ADVISOR_TOOLS in OAuth mode."""
+        result = await _original_list_tools_handler(req)
+        if isinstance(result, _mcp_types.ServerResult) and isinstance(
+            result.root, _mcp_types.ListToolsResult
+        ):
+            filtered = [t for t in result.root.tools if t.name in _ADVISOR_TOOLS]
+            return _mcp_types.ServerResult(_mcp_types.ListToolsResult(tools=filtered))
+        return result
+
+    async def _gated_call_tool_handler(
+        req: _mcp_types.CallToolRequest,
+    ) -> _mcp_types.ServerResult:
+        """Block calls to non-advisor tools in OAuth mode."""
+        tool_name = req.params.name
+        if tool_name not in _ADVISOR_TOOLS:
+            logger.warning("OAuth session attempted blocked tool: %s", tool_name)
+            return _mcp_types.ServerResult(
+                _mcp_types.CallToolResult(
+                    content=[
+                        _mcp_types.TextContent(
+                            type="text",
+                            text=(
+                                f"Access denied: tool '{tool_name}' is not "
+                                f"available to advisor sessions. "
+                                f"Available tools: "
+                                f"{', '.join(sorted(_ADVISOR_TOOLS))}"
+                            ),
+                        )
+                    ],
+                    isError=True,
+                )
+            )
+        return await _original_call_tool_handler(req)
+
+    mcp._mcp_server.request_handlers[_mcp_types.ListToolsRequest] = (
+        _filtered_list_tools_handler
+    )
+    mcp._mcp_server.request_handlers[_mcp_types.CallToolRequest] = (
+        _gated_call_tool_handler
+    )
+
+    logger.info(
+        "Tool authorization active: %d of %d tools exposed to advisors",
+        len(_ADVISOR_TOOLS),
+        len(mcp._tool_manager.list_tools()),
+    )
 
 # Global message bus (in-memory hot cache + DiskCache persistence)
 bus = MessageBus()
@@ -930,6 +1049,41 @@ async def health_check(request: Request) -> JSONResponse:
 
 
 # ---------------------------------------------------------------------------
+# GitHub OAuth callback route (HDR-0040)
+# ---------------------------------------------------------------------------
+
+
+@mcp.custom_route("/github/callback", methods=["GET"])
+async def github_callback(request: Request) -> Response:
+    """Handle the GitHub OAuth callback after user authorization.
+
+    GitHub redirects here after the user approves access. This endpoint
+    exchanges the GitHub code for a token, verifies the user is in the
+    allowed list, issues an MCP authorization code, and redirects back
+    to the client's redirect_uri.
+
+    This route is unauthenticated (registered via custom_route).
+    """
+    if _oauth_provider is None:
+        return JSONResponse({"error": "OAuth not configured"}, status_code=500)
+
+    code = request.query_params.get("code")
+    state = request.query_params.get("state")
+
+    if not code or not state:
+        return JSONResponse(
+            {"error": "Missing code or state parameter"}, status_code=400
+        )
+
+    redirect_url, error = await _oauth_provider.handle_github_callback(code, state)
+
+    if redirect_url is None:
+        return JSONResponse({"error": error}, status_code=403)
+
+    return RedirectResponse(url=redirect_url, status_code=302)
+
+
+# ---------------------------------------------------------------------------
 # Bearer token auth middleware + HTTP app factory
 # ---------------------------------------------------------------------------
 
@@ -961,14 +1115,19 @@ class BearerAuthMiddleware(BaseHTTPMiddleware):
 def create_http_app() -> Starlette:
     """Create the streamable-HTTP MCP app with optional auth middleware.
 
+    When GITHUB_CLIENT_ID is set, OAuth mode is enabled and the GitHub
+    callback route is registered. Otherwise, falls back to optional
+    bearer token auth via HERD_API_TOKEN.
+
     Returns:
-        Starlette ASGI app. If HERD_API_TOKEN is set, bearer token auth
-        is applied to all routes except /health.
+        Starlette ASGI app with appropriate authentication configured.
     """
     app = mcp.streamable_http_app()
 
-    token = os.getenv("HERD_API_TOKEN")
-    if token:
-        app.add_middleware(BearerAuthMiddleware, token=token)  # type: ignore[arg-type]
+    if not _oauth_provider:
+        # Local/agent mode: optional bearer token auth
+        token = os.getenv("HERD_API_TOKEN")
+        if token:
+            app.add_middleware(BearerAuthMiddleware, token=token)  # type: ignore[arg-type]
 
     return app
