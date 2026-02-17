@@ -46,6 +46,7 @@ mcp = FastMCP(
     "herd",
     host=os.getenv("HERD_API_HOST", "0.0.0.0"),
     port=int(os.getenv("HERD_API_PORT", "8420")),
+    stateless_http=True,
 )
 
 # Global message bus (in-memory hot cache + DiskCache persistence)
