@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING
 from mcp.server.fastmcp import FastMCP
 from starlette.applications import Starlette
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.cors import CORSMiddleware
 from starlette.requests import Request
 from starlette.responses import JSONResponse, RedirectResponse, Response
 
@@ -1154,7 +1155,17 @@ def create_http_app() -> Starlette:
     app = mcp.streamable_http_app()
 
     if _oauth_provider:
-        # OAuth mode: add debug middleware to diagnose auth header issues
+        # CORS: claude.ai makes browser-based requests to /mcp.
+        # Without CORS, the browser can't send the Authorization header
+        # (non-simple header requires preflight).
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["https://claude.ai"],
+            allow_methods=["GET", "POST", "DELETE", "OPTIONS"],
+            allow_headers=["Authorization", "Content-Type", "Mcp-Session-Id"],
+            expose_headers=["Mcp-Session-Id"],
+        )
+        # Debug middleware to log incoming auth headers
         app.add_middleware(_AuthDebugMiddleware)
     else:
         # Local/agent mode: optional bearer token auth
