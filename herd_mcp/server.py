@@ -69,6 +69,7 @@ if _github_client_id:
         github_client_secret=os.getenv("HERD_OAUTH_GITHUB_CLIENT_SECRET", ""),
         allowed_users=_allowed_users,
         public_url=_public_url,
+        static_token=os.getenv("HERD_API_TOKEN", ""),
     )
 
     mcp = FastMCP(
@@ -118,6 +119,7 @@ if _oauth_provider is not None:
     from mcp import types as _mcp_types
 
     from .auth import ADVISOR_TOOLS as _ADVISOR_TOOLS
+    from .auth import is_internal_session as _is_internal_session
 
     _original_list_tools_handler = mcp._mcp_server.request_handlers[
         _mcp_types.ListToolsRequest
@@ -129,7 +131,9 @@ if _oauth_provider is not None:
     async def _filtered_list_tools_handler(
         req: _mcp_types.ListToolsRequest,
     ) -> _mcp_types.ServerResult:
-        """Filter tool listing to only expose ADVISOR_TOOLS in OAuth mode."""
+        """Filter tool listing for advisor sessions; internal gets all tools."""
+        if _is_internal_session.get(False):
+            return await _original_list_tools_handler(req)
         result = await _original_list_tools_handler(req)
         if isinstance(result, _mcp_types.ServerResult) and isinstance(
             result.root, _mcp_types.ListToolsResult
@@ -141,7 +145,9 @@ if _oauth_provider is not None:
     async def _gated_call_tool_handler(
         req: _mcp_types.CallToolRequest,
     ) -> _mcp_types.ServerResult:
-        """Block calls to non-advisor tools in OAuth mode."""
+        """Block non-advisor tools for OAuth sessions; internal gets full access."""
+        if _is_internal_session.get(False):
+            return await _original_call_tool_handler(req)
         tool_name = req.params.name
         if tool_name not in _ADVISOR_TOOLS:
             logger.warning("OAuth session attempted blocked tool: %s", tool_name)

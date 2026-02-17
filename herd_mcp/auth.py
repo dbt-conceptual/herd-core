@@ -17,6 +17,7 @@ re-auth on server restart. Acceptable for single-user deployment.
 
 from __future__ import annotations
 
+import contextvars
 import logging
 import secrets
 import time
@@ -32,6 +33,13 @@ from mcp.server.auth.provider import (
 from mcp.shared.auth import OAuthClientInformationFull, OAuthToken
 
 logger = logging.getLogger(__name__)
+
+# ContextVar set per-request by load_access_token().
+# True = static bearer token (internal agent, full tool access).
+# False = OAuth-issued token (advisor, filtered per ADVISOR_TOOLS).
+is_internal_session: contextvars.ContextVar[bool] = contextvars.ContextVar(
+    "is_internal_session", default=False
+)
 
 # ---------------------------------------------------------------------------
 # HDR-0040 Tool Authorization Matrix
@@ -98,6 +106,7 @@ class HerdOAuthProvider:
     github_client_secret: str
     allowed_users: list[str]
     public_url: str
+    static_token: str = ""  # HERD_API_TOKEN for internal agent connections
 
     # In-memory stores (intentional per HDR-0040)
     clients: dict[str, OAuthClientInformationFull] = field(default_factory=dict)
@@ -268,6 +277,21 @@ class HerdOAuthProvider:
         Returns:
             AccessToken if valid and not expired, None otherwise.
         """
+        # Static token bypass for internal agent connections.
+        # When HERD_API_TOKEN matches, return a synthetic AccessToken
+        # with full internal scopes — no OAuth flow needed for internal traffic.
+        # Credential type determines authorization: internal = all tools,
+        # OAuth = advisor-filtered per HDR-0040.
+        if self.static_token and token == self.static_token:
+            logger.debug("Static bearer token accepted (internal agent)")
+            is_internal_session.set(True)
+            return AccessToken(
+                token=token,
+                client_id="internal",
+                scopes=["herd:internal", "herd:advisor"],
+                expires_at=0,  # Never expires
+            )
+
         logger.warning(
             "load_access_token called — token prefix: %s, store size: %d",
             token[:12] if token else "(empty)",
