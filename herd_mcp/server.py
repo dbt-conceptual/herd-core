@@ -51,7 +51,7 @@ logger = logging.getLogger(__name__)
 # Conditional OAuth setup (HDR-0040: GitHub OAuth for public exposure)
 # ---------------------------------------------------------------------------
 
-_github_client_id = os.getenv("GITHUB_CLIENT_ID")
+_github_client_id = os.getenv("HERD_OAUTH_GITHUB_CLIENT_ID")
 _oauth_provider: "HerdOAuthProvider | None" = None
 
 if _github_client_id:
@@ -59,13 +59,13 @@ if _github_client_id:
 
     from .auth import HerdOAuthProvider
 
-    _allowed_users_raw = os.getenv("ALLOWED_GITHUB_USERS", "")
+    _allowed_users_raw = os.getenv("HERD_ALLOWED_GITHUB_USERS", "")
     _allowed_users = [u.strip() for u in _allowed_users_raw.split(",") if u.strip()]
     _public_url = os.getenv("HERD_PUBLIC_URL", "https://herd-mcp.eriksen.live")
 
     _oauth_provider = HerdOAuthProvider(
         github_client_id=_github_client_id,
-        github_client_secret=os.getenv("GITHUB_CLIENT_SECRET", ""),
+        github_client_secret=os.getenv("HERD_OAUTH_GITHUB_CLIENT_SECRET", ""),
         allowed_users=_allowed_users,
         public_url=_public_url,
     )
