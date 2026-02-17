@@ -47,7 +47,23 @@ def main() -> None:
         mcp.run()
     else:
         # Default: streamable-HTTP transport
-        mcp.run(transport="streamable-http")
+        # Uses create_http_app() instead of mcp.run() to ensure
+        # our middleware (auth debug, bearer auth) is applied.
+        import asyncio
+
+        import uvicorn
+
+        from .server import create_http_app
+
+        app = create_http_app()
+        config = uvicorn.Config(
+            app,
+            host=mcp.settings.host,
+            port=mcp.settings.port,
+            log_level=mcp.settings.log_level.lower(),
+        )
+        server = uvicorn.Server(config)
+        asyncio.run(server.serve())
 
 
 if __name__ == "__main__":
