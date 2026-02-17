@@ -1084,8 +1084,37 @@ async def github_callback(request: Request) -> Response:
 
 
 # ---------------------------------------------------------------------------
-# Bearer token auth middleware + HTTP app factory
+# Auth debug + bearer token middleware + HTTP app factory
 # ---------------------------------------------------------------------------
+
+
+class _AuthDebugMiddleware(BaseHTTPMiddleware):
+    """Temporary debug middleware to log incoming auth headers.
+
+    Logs whether an Authorization header is present on /mcp requests
+    before FastMCP's auth middleware processes them. Helps diagnose
+    cases where a reverse proxy (e.g., Cloudflare) strips the header.
+    """
+
+    async def dispatch(
+        self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
+    ) -> Response:
+        """Log auth header presence on /mcp requests."""
+        if request.url.path == "/mcp":
+            auth_header = request.headers.get("authorization", "")
+            if auth_header:
+                logger.debug(
+                    "Incoming /mcp request — Auth header present, "
+                    "prefix: Bearer %s...",
+                    (
+                        auth_header[7:19]
+                        if auth_header.startswith("Bearer ")
+                        else "(non-bearer)"
+                    ),
+                )
+            else:
+                logger.warning("Incoming /mcp request — NO Authorization header!")
+        return await call_next(request)
 
 
 class BearerAuthMiddleware(BaseHTTPMiddleware):
@@ -1124,7 +1153,10 @@ def create_http_app() -> Starlette:
     """
     app = mcp.streamable_http_app()
 
-    if not _oauth_provider:
+    if _oauth_provider:
+        # OAuth mode: add debug middleware to diagnose auth header issues
+        app.add_middleware(_AuthDebugMiddleware)
+    else:
         # Local/agent mode: optional bearer token auth
         token = os.getenv("HERD_API_TOKEN")
         if token:

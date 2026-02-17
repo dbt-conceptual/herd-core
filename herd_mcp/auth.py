@@ -240,9 +240,10 @@ class HerdOAuthProvider:
         self.auth_codes.pop(authorization_code.code, None)
 
         logger.info(
-            "Issued access token for client %s (GitHub user: %s)",
+            "Issued access token for client %s (GitHub user: %s, scopes: %s)",
             client.client_id[:8] if client.client_id else "unknown",
             github_user or "unknown",
+            access_token.scopes,
         )
 
         return OAuthToken(
@@ -264,8 +265,17 @@ class HerdOAuthProvider:
         Returns:
             AccessToken if valid and not expired, None otherwise.
         """
+        logger.debug(
+            "load_access_token called — token prefix: %s, store size: %d",
+            token[:12] if token else "(empty)",
+            len(self.access_tokens),
+        )
         access_token = self.access_tokens.get(token)
         if access_token is None:
+            logger.warning(
+                "Token not found in store. Stored token prefixes: %s",
+                [k[:12] for k in self.access_tokens],
+            )
             return None
 
         # Check expiration
@@ -275,6 +285,11 @@ class HerdOAuthProvider:
             self.token_github_users.pop(token, None)
             return None
 
+        logger.info(
+            "Token verified — client: %s, scopes: %s",
+            access_token.client_id[:8] if access_token.client_id else "unknown",
+            access_token.scopes,
+        )
         return access_token
 
     async def load_refresh_token(
@@ -381,9 +396,16 @@ class HerdOAuthProvider:
         auth_code_value = secrets.token_urlsafe(48)
         now = time.time()
 
+        # Ensure herd:advisor scope is always present — clients may
+        # not request it explicitly, which would leave scopes=[] and
+        # cause RequireAuthMiddleware to reject the token.
+        scopes = list(pending.params.scopes) if pending.params.scopes else []
+        if "herd:advisor" not in scopes:
+            scopes.append("herd:advisor")
+
         auth_code = AuthorizationCode(
             code=auth_code_value,
-            scopes=pending.params.scopes or [],
+            scopes=scopes,
             expires_at=now + _AUTH_CODE_TTL_SECONDS,
             client_id=pending.client.client_id or "",
             code_challenge=pending.params.code_challenge,
